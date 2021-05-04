@@ -86,7 +86,7 @@ namespace ComputerShopView
             }
             if(ComputersComboBox.SelectedValue == null)
             {
-                MessageBox.Show("Выберете изделие", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Выберете компьютер", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             try

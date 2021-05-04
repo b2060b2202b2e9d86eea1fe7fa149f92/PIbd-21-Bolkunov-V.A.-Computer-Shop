@@ -25,7 +25,7 @@ namespace ComputerShopFileImplement.Implementations
 
         public List<ComputerViewModel> GetFilteredList(ComputerBindingModel model)
         {
-            if (model == null)
+            if(model == null)
             {
                 return null;
             }

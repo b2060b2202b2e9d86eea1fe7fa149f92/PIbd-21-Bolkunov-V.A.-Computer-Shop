@@ -47,8 +47,16 @@ namespace ComputerShopDatabaseImplement.Implementations
             using (var context = new ComputerShopDatabase())
             {
                 return context.Orders
-                    .Where(ord => ord.ComputerId == model.ComputerId || 
-                            ord.DateCreate == model.DateCreate)//???
+                    .Where(ord =>
+                        ((model.DateFrom != null && 
+                                    (ord.DateCreate.Date >= model.DateFrom.Value.Date ||
+                                    (ord.DateImplement != null && 
+                                        ord.DateImplement.Value.Date >= model.DateFrom.Value.Date))) &&
+                        (model.DateTo != null && 
+                                    (ord.DateCreate.Date <= model.DateTo.Value.Date ||
+                                    (ord.DateImplement != null && 
+                                        ord.DateImplement.Value.Date <= model.DateTo.Value.Date))) || 
+                        ord.ComputerId == model.ComputerId))
                     .ToList()
                     .Select<Order, OrderViewModel>
                         (

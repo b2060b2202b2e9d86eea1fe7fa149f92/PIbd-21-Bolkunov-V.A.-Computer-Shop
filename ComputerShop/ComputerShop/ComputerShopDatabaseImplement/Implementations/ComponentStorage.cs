@@ -27,7 +27,7 @@ namespace ComputerShopDatabaseImplement.Implementations
         }
         public List<ComponentViewModel> GetFilteredList(ComponentBindingModel model)
         {
-            if (model == null)
+            if(model == null)
             {
                 return null;
             }

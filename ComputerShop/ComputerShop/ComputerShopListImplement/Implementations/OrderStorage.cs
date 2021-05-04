@@ -37,8 +37,15 @@ namespace ComputerShopListImplement.Implementations
             var res = new List<OrderViewModel>();
             foreach (var ord in dataSource.Orders)
             {
-                if (ord.ComputerId == model.ComputerId ||
-                        ord.DateCreate == model.DateCreate)//???
+                if ((model.DateFrom != null &&
+                                    (ord.DateCreate.Date >= model.DateFrom.Value.Date ||
+                                    (ord.DateImplement != null &&
+                                        ord.DateImplement.Value.Date >= model.DateFrom.Value.Date))) &&
+                        (model.DateTo != null &&
+                                    (ord.DateCreate.Date <= model.DateTo.Value.Date ||
+                                    (ord.DateImplement != null &&
+                                        ord.DateImplement.Value.Date <= model.DateTo.Value.Date))) ||
+                        ord.ComputerId == model.ComputerId)
                 {
                     res.Add(CreateModel(ord));
                 }
@@ -55,7 +62,7 @@ namespace ComputerShopListImplement.Implementations
 
             foreach (var ord in dataSource.Orders)
             {
-                if (ord.Id == model.Id)//???
+                if (ord.Id == model.Id)
                 {
                     return CreateModel(ord);
                 }
