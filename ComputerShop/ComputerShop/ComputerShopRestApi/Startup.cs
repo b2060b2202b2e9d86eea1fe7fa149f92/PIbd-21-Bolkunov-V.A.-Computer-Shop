@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using ComputerShopBusinessLogic.BusinessLogics;
 using ComputerShopBusinessLogic.Interfaces;
 using ComputerShopDatabaseImplement.Implementations;
+using ComputerShopBusinessLogic.HelperModels;
 
 namespace ComputerShopRestApi
 {
@@ -28,12 +29,23 @@ namespace ComputerShopRestApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var section = Configuration.GetSection("MailConfig");
+            MailLogic.MailConfig(new MailConfig 
+            {
+                MailLogin = section["MailLogin"],
+                MailPassword = section["MailPassword"],
+                SmtpClientHost = section["SmtpClientHost"],
+                SmtpClientPort = Convert.ToInt32(section["SmtpClientPort"])
+            });
+
             services.AddTransient<IClientStorage, ClientStorage>();
             services.AddTransient<IComputerStorage, ComputerStorage>();
             services.AddTransient<IOrderStorage, OrderStorage>();
+            services.AddTransient<IMessageInfoStorage, MessageInfoStorage>();
             services.AddTransient<ClientLogic>();
             services.AddTransient<ComputerLogic>();
             services.AddTransient<OrderLogic>();
+            services.AddTransient<MailLogic>();
             services.AddControllers().AddNewtonsoftJson();
         }
 

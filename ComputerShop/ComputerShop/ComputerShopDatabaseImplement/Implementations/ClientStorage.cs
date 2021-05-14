@@ -30,7 +30,7 @@ namespace ComputerShopDatabaseImplement.Implementations
 
         public List<ClientViewModel> GetFilteredList(ClientBindingModel model)
         {
-            if (model == null)
+            if(model == null)
             {
                 return null;
             }
@@ -96,8 +96,8 @@ namespace ComputerShopDatabaseImplement.Implementations
 
                 var client = context.Clients
                     .FirstOrDefault(c => c.Id == model.Id);
-
-                if (client == null)
+                
+                if(client == null)
                 {
                     throw new Exception("Клиент не найден");
                 }
@@ -113,7 +113,7 @@ namespace ComputerShopDatabaseImplement.Implementations
             {
                 var client = context.Clients
                     .FirstOrDefault(c => c.Id == model.Id || (
-                    c.ClientLogin == model.ClientLogin &&
+                    c.ClientLogin == model.ClientLogin && 
                     c.PasswordHash == model.PasswordHash));
 
                 if (client == null)

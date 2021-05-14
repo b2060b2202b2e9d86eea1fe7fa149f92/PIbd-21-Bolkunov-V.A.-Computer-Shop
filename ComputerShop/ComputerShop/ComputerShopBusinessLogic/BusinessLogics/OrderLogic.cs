@@ -5,6 +5,7 @@ using ComputerShopBusinessLogic.Interfaces;
 using ComputerShopBusinessLogic.BindingModels;
 using ComputerShopBusinessLogic.ViewModels;
 using ComputerShopBusinessLogic.Enums;
+using ComputerShopBusinessLogic.HelperModels;
 
 namespace ComputerShopBusinessLogic.BusinessLogics
 {
@@ -14,9 +15,12 @@ namespace ComputerShopBusinessLogic.BusinessLogics
 
         private readonly IOrderStorage orderStorage;
 
-        public OrderLogic(IOrderStorage orderStorage)
+        private readonly IClientStorage clientStorage;
+
+        public OrderLogic(IOrderStorage orderStorage, IClientStorage clientStorage)
         {
             this.orderStorage = orderStorage;
+            this.clientStorage = clientStorage;
         }
 
         public List<OrderViewModel> Read(OrderBindingModel model)
@@ -41,6 +45,15 @@ namespace ComputerShopBusinessLogic.BusinessLogics
                 ComputerId = model.ComputerId, ClientId = model.ClientId, ImplementerId = null,
                 Count = model.Count, Sum = model.Sum, DateCreate = DateTime.Now, FreeOrders = true,
                 Status = OrderStatus.Принят
+            });
+
+            MailLogic.MailSendAsync(new MailSendInfo
+            {
+                MailAddress = clientStorage.GetElement(new ClientBindingModel { Id = model.ClientId })?.ClientLogin,
+                Subject = $"Новый заказ",
+                Text = (model.OrderByApp) ? 
+                    $"Мы создали за вас заказ от {DateTime.Now} на сумму {model.Sum:N2}." : 
+                    $"Ваш заказ от {DateTime.Now} на сумму {model.Sum:N2} успешно создан."
             });
         }
 
@@ -83,6 +96,13 @@ namespace ComputerShopBusinessLogic.BusinessLogics
                     Status = OrderStatus.Выполняется,
                     FreeOrders = false
                 });
+
+                MailLogic.MailSendAsync(new MailSendInfo
+                {
+                    MailAddress = clientStorage.GetElement(new ClientBindingModel { Id = order.ClientId })?.ClientLogin,
+                    Subject = $"Заказ №{order.Id}",
+                    Text = $"Заказ №{order.Id} передан в работу."
+                });
             }
         }
 
@@ -110,6 +130,13 @@ namespace ComputerShopBusinessLogic.BusinessLogics
                 Status = OrderStatus.Готов,
                 FreeOrders = order.FreeOrders
             });
+
+            MailLogic.MailSendAsync(new MailSendInfo
+            {
+                MailAddress = clientStorage.GetElement(new ClientBindingModel { Id = order.ClientId })?.ClientLogin,
+                Subject = $"Заказ №{order.Id}",
+                Text = $"Заказ №{order.Id} завершен, ожидаем оплату."
+            });
         }
 
         public void PayOrder(ChangeStatusBindingModel model)
@@ -135,6 +162,13 @@ namespace ComputerShopBusinessLogic.BusinessLogics
                 DateImplement = DateTime.Now,
                 Status = OrderStatus.Оплачен,
                 FreeOrders = order.FreeOrders
+            });
+
+            MailLogic.MailSendAsync(new MailSendInfo
+            {
+                MailAddress = clientStorage.GetElement(new ClientBindingModel { Id = order.ClientId })?.ClientLogin,
+                Subject = $"Заказ №{order.Id}",
+                Text = $"Заказ №{order.Id} успешно оплачен."
             });
         }
     }

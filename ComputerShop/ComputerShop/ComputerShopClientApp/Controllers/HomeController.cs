@@ -69,8 +69,8 @@ namespace ComputerShopClientApp.Controllers
         {
             if(!string.IsNullOrEmpty(login) && !string.IsNullOrEmpty(password))
             {
-                Program.Client = 
-                    APIClient.GetRequest<ClientViewModel>($"api/client/login?login={login}&password={password}");
+                Program.Client = APIClient
+                    .GetRequest<ClientViewModel>($"api/client/login?login={login}&password={password}");
 
                 if(Program.Client == null)
                 {
@@ -125,7 +125,8 @@ namespace ComputerShopClientApp.Controllers
                 ClientId = Program.Client.Id,
                 ComputerId = computer,
                 Count = count,
-                Sum = sum
+                Sum = sum,
+                OrderByApp = false
             });
             Response.Redirect("Index");
         }
@@ -141,6 +142,17 @@ namespace ComputerShopClientApp.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        [HttpGet]
+        public IActionResult Mail()
+        {
+            if (Program.Client == null)
+            {
+                return Redirect("~/Home/Enter");
+            }
+            return View(APIClient.GetRequest<List<MessageInfoViewModel>>
+                ($"api/client/getmessages?clientId={Program.Client.Id}"));
         }
     }
 }

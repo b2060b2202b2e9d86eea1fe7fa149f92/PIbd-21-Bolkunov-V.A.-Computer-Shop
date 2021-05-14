@@ -1,0 +1,70 @@
+﻿@using ComputerShopBusinessLogic.ViewModels
+
+@model List<MessageInfoViewModel>
+
+@{
+    ViewData["Title"] = "Mail";
+}
+
+<div class="text-center">
+    <h2 class="display-4">Почта</h2>
+</div>
+
+<div class="text-center">
+    @{
+        if (Model == null)
+        {
+            <h3 class="display-4">Авторизируйтесь</h3>
+            return;
+        }
+
+        <p>
+            <a asp-action="Mail">Обновить</a>
+        </p>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Номер письма
+                    </th>
+                    <th>
+                        Имя отправителя
+                    </th>
+                    <th>
+                        Дата отправления
+                    </th>
+                    <th>
+                        Тема
+                    </th>
+                    <th>
+                        Сообщение
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var messageInfo in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => messageInfo.MessageId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => messageInfo.SenderName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => messageInfo.DateDelivery)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => messageInfo.Subject)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => messageInfo.Body)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
