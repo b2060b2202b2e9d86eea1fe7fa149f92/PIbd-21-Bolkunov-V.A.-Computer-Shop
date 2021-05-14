@@ -42,14 +42,17 @@ namespace ComputerShopBusinessLogic.BusinessLogics
             var ordersToContinue = await Task.Run(() => 
                 orderStorage.GetFilteredList(new OrderBindingModel { ImplementerId = implementer.Id }));
 
-            foreach (var ord in ordersToContinue)
+            await Task.Run(() =>
             {
-                Thread.Sleep(implementer.WorkingTime * random.Next(1, 5) * orders.Count);
-                
-                orderLogic.FinishOrder(new ChangeStatusBindingModel { OrderId = ord.Id });
+                foreach (var ord in ordersToContinue)
+                {
+                    Thread.Sleep(implementer.WorkingTime * random.Next(1, 5) * orders.Count);
 
-                Thread.Sleep(implementer.PauseTime);
-            }
+                    orderLogic.FinishOrder(new ChangeStatusBindingModel { OrderId = ord.Id });
+
+                    Thread.Sleep(implementer.PauseTime);
+                }
+            });
 
             await Task.Run(() =>
             {
@@ -69,7 +72,7 @@ namespace ComputerShopBusinessLogic.BusinessLogics
 
                         Thread.Sleep(implementer.PauseTime);
                     }
-                    catch (Exception ex) { }
+                    catch (Exception) { }
                 }
             });
         }

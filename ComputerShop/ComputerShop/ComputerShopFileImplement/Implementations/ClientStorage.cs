@@ -52,12 +52,12 @@ namespace ComputerShopFileImplement.Implementations
 
         public void Insert(ClientBindingModel model)
         {
-            if (dataSource.Clients.Exists(c => c.ClientLogin == model.ClientLogin))
+            if(dataSource.Clients.Exists(c => c.ClientLogin == model.ClientLogin))
             {
                 throw new Exception("Клиент с таким логином уже существует");
             }
             int maxId = dataSource.Clients.Count > 0 ? dataSource.Clients.Max(c => c.Id) : 0;
-            dataSource.Clients.Add(CreateModel(model, new Client { Id = maxId + 1 }));
+            dataSource.Clients.Add(CreateModel(model, new Client { Id = maxId + 1}));
         }
 
         public void Update(ClientBindingModel model)
@@ -81,7 +81,7 @@ namespace ComputerShopFileImplement.Implementations
         {
             var client = dataSource.Clients
                 .FirstOrDefault(c => c.Id == model.Id || (
-                c.ClientLogin == model.ClientLogin &&
+                c.ClientLogin == model.ClientLogin && 
                 c.PasswordHash == model.PasswordHash));
             if (client == null)
             {

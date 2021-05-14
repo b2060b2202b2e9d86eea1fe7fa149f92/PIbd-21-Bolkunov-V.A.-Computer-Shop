@@ -27,7 +27,7 @@ namespace ComputerShopListImplement.Implementations
             }
             return res;
         }
-
+       
         public List<ClientViewModel> GetFilteredList(ClientBindingModel model)
         {
             if (model == null)
@@ -78,7 +78,7 @@ namespace ComputerShopListImplement.Implementations
                     temp.Id = client.Id + 1;
                 }
             }
-            dataSource.Clients.Add(CreateModel(model, temp));
+            dataSource.Clients.Add(CreateModel(model,temp));
         }
 
         public void Update(ClientBindingModel model)
@@ -90,7 +90,7 @@ namespace ComputerShopListImplement.Implementations
                 {
                     temp = client;
                 }
-                else if (model.ClientLogin == model.ClientLogin)
+                else if(model.ClientLogin == model.ClientLogin)
                 {
                     throw new Exception("Клиент с таким логином уже существует");
                 }
@@ -108,8 +108,8 @@ namespace ComputerShopListImplement.Implementations
         {
             for (int i = 0; i < dataSource.Clients.Count; i++)
             {
-                if (dataSource.Clients[i].Id == model.Id || (
-                    dataSource.Clients[i].ClientLogin == model.ClientLogin &&
+                if(dataSource.Clients[i].Id == model.Id || (
+                    dataSource.Clients[i].ClientLogin == model.ClientLogin && 
                     dataSource.Clients[i].PasswordHash == model.PasswordHash))
                 {
                     dataSource.Clients.RemoveAt(i);

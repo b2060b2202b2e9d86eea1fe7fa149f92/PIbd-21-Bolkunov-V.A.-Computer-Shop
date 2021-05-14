@@ -113,7 +113,8 @@ namespace ComputerShopView
                     ComputerId = Convert.ToInt32(ComputersComboBox.SelectedValue),
                     ClientId = Convert.ToInt32(ClientsComboBox.SelectedValue),
                     Count = Convert.ToInt32(CountTextBox.Text),
-                    Sum = Convert.ToDecimal(PriceTextBox.Text)
+                    Sum = Convert.ToDecimal(PriceTextBox.Text),
+                    OrderByApp = true
                 });
                 MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DialogResult = DialogResult.OK;
