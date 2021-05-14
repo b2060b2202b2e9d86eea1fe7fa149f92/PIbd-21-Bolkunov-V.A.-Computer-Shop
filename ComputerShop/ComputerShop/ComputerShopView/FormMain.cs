@@ -43,7 +43,10 @@ namespace ComputerShopView
                     
                     ordersDataGridView.Columns[1].Visible = false;
                     ordersDataGridView.Columns[1].ReadOnly = true;
-                    
+
+                    ordersDataGridView.Columns[2].Visible = false;
+                    ordersDataGridView.Columns[3].ReadOnly = true;
+
                     ordersDataGridView.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                     ordersDataGridView.Columns[2].ReadOnly = true;
                     
@@ -61,6 +64,9 @@ namespace ComputerShopView
                     
                     ordersDataGridView.Columns[7].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                     ordersDataGridView.Columns[7].ReadOnly = true;
+
+                    ordersDataGridView.Columns[8].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    ordersDataGridView.Columns[8].ReadOnly = true;
                 }
             }
             catch (Exception ex)
@@ -165,6 +171,12 @@ namespace ComputerShopView
         private void OrdersListToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormReportOrders>();
+            form.ShowDialog();
+        }
+
+        private void ClientsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormClients>();
             form.ShowDialog();
         }
     }

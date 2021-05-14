@@ -23,11 +23,14 @@ namespace ComputerShopView
 
         private readonly OrderLogic logicOrder;
 
-        public FormCreateOrder(ComputerLogic logicComputer, OrderLogic logicOrder)
+        private readonly ClientLogic logicClient;
+
+        public FormCreateOrder(ComputerLogic logicComputer, OrderLogic logicOrder, ClientLogic logicClient)
         {
             InitializeComponent();
             this.logicComputer = logicComputer;
             this.logicOrder = logicOrder;
+            this.logicClient = logicClient;
         }
 
         private void FormCreateOrder_Load(object sender, EventArgs e)
@@ -41,6 +44,15 @@ namespace ComputerShopView
                     ComputersComboBox.ValueMember = "Id";
                     ComputersComboBox.DataSource = list;
                     ComputersComboBox.SelectedItem = null;
+                }
+
+                var clientsList = logicClient.Read(null);
+                if(clientsList != null)
+                {
+                    ClientsComboBox.DisplayMember = "ClientName";
+                    ClientsComboBox.ValueMember = "Id";
+                    ClientsComboBox.DataSource = clientsList;
+                    ClientsComboBox.SelectedItem = null;
                 }
             }
             catch(Exception ex)
@@ -89,11 +101,17 @@ namespace ComputerShopView
                 MessageBox.Show("Выберете компьютер", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            if (ClientsComboBox.SelectedValue == null)
+            {
+                MessageBox.Show("Выберете клиента", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             try
             {
                 logicOrder.CreateOrder(new CreateOrderBindingModel
                 {
                     ComputerId = Convert.ToInt32(ComputersComboBox.SelectedValue),
+                    ClientId = Convert.ToInt32(ClientsComboBox.SelectedValue),
                     Count = Convert.ToInt32(CountTextBox.Text),
                     Sum = Convert.ToDecimal(PriceTextBox.Text)
                 });

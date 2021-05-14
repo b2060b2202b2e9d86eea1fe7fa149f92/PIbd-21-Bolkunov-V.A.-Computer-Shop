@@ -45,7 +45,9 @@ namespace ComputerShopListImplement.Implementations
                                     (ord.DateCreate.Date <= model.DateTo.Value.Date ||
                                     (ord.DateImplement != null &&
                                         ord.DateImplement.Value.Date <= model.DateTo.Value.Date))) ||
-                        ord.ComputerId == model.ComputerId)
+                        (model.ClientId.HasValue &&
+                        ord.ClientId == model.ClientId) ||
+                        ord.DateCreate == model.DateCreate)
                 {
                     res.Add(CreateModel(ord));
                 }
@@ -72,6 +74,10 @@ namespace ComputerShopListImplement.Implementations
 
         public void Insert(OrderBindingModel model)
         {
+            if(model.ClientId == null)
+            {
+                throw new Exception("Клиент не указан");
+            }
             var temp = new Order { Id = 1 };
             foreach (var ord in dataSource.Orders)
             {
@@ -85,6 +91,11 @@ namespace ComputerShopListImplement.Implementations
 
         public void Update(OrderBindingModel model)
         {
+            if (model.ClientId == null)
+            {
+                throw new Exception("Клиент не указан");
+            }
+
             Order temp = null;
             foreach (var ord in dataSource.Orders)
             {
@@ -119,6 +130,7 @@ namespace ComputerShopListImplement.Implementations
         private Order CreateModel(OrderBindingModel model, Order order)
         {
             order.ComputerId = model.ComputerId;
+            order.ClientId = model.ClientId.Value;
             order.Count = model.Count;
             order.DateCreate = model.DateCreate;
             order.DateImplement = model.DateImplement;
@@ -133,17 +145,26 @@ namespace ComputerShopListImplement.Implementations
             {
                 if (comp.Id == order.ComputerId)
                 {
-                    return new OrderViewModel
+                    foreach (var client in dataSource.Clients)
                     {
-                        Id = order.Id,
-                        ComputerId = order.ComputerId,
-                        ComputerName = comp.ComputerName,
-                        Count = order.Count,
-                        Sum = order.Sum,
-                        Status = order.Status,
-                        DateCreate = order.DateCreate,
-                        DateImplement = order.DateImplement
-                    };
+                        if (client.Id == order.ClientId)
+                        {
+                            return new OrderViewModel
+                            {
+                                Id = order.Id,
+                                ComputerId = order.ComputerId,
+                                ClientId = order.ClientId,
+                                ComputerName = comp.ComputerName,
+                                ClientName = client.ClientName,
+                                Count = order.Count,
+                                Sum = order.Sum,
+                                Status = order.Status,
+                                DateCreate = order.DateCreate,
+                                DateImplement = order.DateImplement
+                            };
+                        }
+                    }
+                    throw new Exception("Клиент не найден");
                 }
             }
             throw new Exception("Компьютер не найден");

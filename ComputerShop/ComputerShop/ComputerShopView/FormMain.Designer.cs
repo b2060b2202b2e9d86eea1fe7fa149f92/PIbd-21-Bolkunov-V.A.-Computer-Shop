@@ -33,6 +33,7 @@ namespace ComputerShopView
             this.справочникиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ComponentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ComputersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ClientsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.отчетToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ComponentsListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ComputerComponentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -62,7 +63,8 @@ namespace ComputerShopView
             // 
             this.справочникиToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ComponentsToolStripMenuItem,
-            this.ComputersToolStripMenuItem});
+            this.ComputersToolStripMenuItem,
+            this.ClientsToolStripMenuItem});
             this.справочникиToolStripMenuItem.Name = "справочникиToolStripMenuItem";
             this.справочникиToolStripMenuItem.Size = new System.Drawing.Size(94, 20);
             this.справочникиToolStripMenuItem.Text = "Справочники";
@@ -70,16 +72,23 @@ namespace ComputerShopView
             // ComponentsToolStripMenuItem
             // 
             this.ComponentsToolStripMenuItem.Name = "ComponentsToolStripMenuItem";
-            this.ComponentsToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.ComponentsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.ComponentsToolStripMenuItem.Text = "Компоненты";
             this.ComponentsToolStripMenuItem.Click += new System.EventHandler(this.ComponentsToolStripMenuItem_Click);
             // 
             // ComputersToolStripMenuItem
             // 
             this.ComputersToolStripMenuItem.Name = "ComputersToolStripMenuItem";
-            this.ComputersToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.ComputersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.ComputersToolStripMenuItem.Text = "Компьютеры";
             this.ComputersToolStripMenuItem.Click += new System.EventHandler(this.ComputersToolStripMenuItem_Click);
+            // 
+            // ClientsToolStripMenuItem
+            // 
+            this.ClientsToolStripMenuItem.Name = "ClientsToolStripMenuItem";
+            this.ClientsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.ClientsToolStripMenuItem.Text = "Клиенты";
+            this.ClientsToolStripMenuItem.Click += new System.EventHandler(this.ClientsToolStripMenuItem_Click);
             // 
             // отчетToolStripMenuItem
             // 
@@ -94,7 +103,7 @@ namespace ComputerShopView
             // ComponentsListToolStripMenuItem
             // 
             this.ComponentsListToolStripMenuItem.Name = "ComponentsListToolStripMenuItem";
-            this.ComponentsListToolStripMenuItem.Size = new System.Drawing.Size(241, 22);
+            this.ComponentsListToolStripMenuItem.Size = new System.Drawing.Size(233, 22);
             this.ComponentsListToolStripMenuItem.Text = "Список компонентов";
             this.ComponentsListToolStripMenuItem.Click += new System.EventHandler(this.ComponentsListToolStripMenuItem_Click);
             // 
@@ -108,7 +117,7 @@ namespace ComputerShopView
             // OrdersListToolStripMenuItem
             // 
             this.OrdersListToolStripMenuItem.Name = "OrdersListToolStripMenuItem";
-            this.OrdersListToolStripMenuItem.Size = new System.Drawing.Size(241, 22);
+            this.OrdersListToolStripMenuItem.Size = new System.Drawing.Size(233, 22);
             this.OrdersListToolStripMenuItem.Text = "Список заказов";
             this.OrdersListToolStripMenuItem.Click += new System.EventHandler(this.OrdersListToolStripMenuItem_Click);
             // 
@@ -211,5 +220,6 @@ namespace ComputerShopView
         private System.Windows.Forms.ToolStripMenuItem ComponentsListToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ComputerComponentsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem OrdersListToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ClientsToolStripMenuItem;
     }
 }

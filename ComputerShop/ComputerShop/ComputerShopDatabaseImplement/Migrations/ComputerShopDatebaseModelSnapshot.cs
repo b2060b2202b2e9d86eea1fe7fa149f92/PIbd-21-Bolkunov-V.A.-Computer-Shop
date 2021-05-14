@@ -19,6 +19,30 @@ namespace ComputerShopDatabaseImplement.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("ComputerShopDatabaseImplement.Models.Client", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClientLogin")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClientName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Clients");
+                });
+
             modelBuilder.Entity("ComputerShopDatabaseImplement.Models.Component", b =>
                 {
                     b.Property<int>("Id")
@@ -86,6 +110,9 @@ namespace ComputerShopDatabaseImplement.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
                     b.Property<int>("ComputerId")
                         .HasColumnType("int");
 
@@ -105,6 +132,8 @@ namespace ComputerShopDatabaseImplement.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
 
                     b.HasIndex("ComputerId");
 
@@ -128,6 +157,12 @@ namespace ComputerShopDatabaseImplement.Migrations
 
             modelBuilder.Entity("ComputerShopDatabaseImplement.Models.Order", b =>
                 {
+                    b.HasOne("ComputerShopDatabaseImplement.Models.Client", null)
+                        .WithMany("Orders")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("ComputerShopDatabaseImplement.Models.Computer", null)
                         .WithMany("Orders")
                         .HasForeignKey("ComputerId")
