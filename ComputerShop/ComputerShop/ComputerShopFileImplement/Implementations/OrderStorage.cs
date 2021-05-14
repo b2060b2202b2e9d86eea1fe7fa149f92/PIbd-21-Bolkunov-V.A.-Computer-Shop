@@ -40,7 +40,9 @@ namespace ComputerShopFileImplement.Implementations
                                     (ord.DateCreate.Date <= model.DateTo.Value.Date ||
                                     (ord.DateImplement != null &&
                                         ord.DateImplement.Value.Date <= model.DateTo.Value.Date))) ||
-                        ord.ComputerId == model.ComputerId))
+                         (model.ClientId.HasValue &&
+                        ord.ClientId == model.ClientId) ||
+                        ord.DateCreate == model.DateCreate))
                 .Select(CreateModel)
                 .ToList();
         }
@@ -58,6 +60,11 @@ namespace ComputerShopFileImplement.Implementations
 
         public void Insert(OrderBindingModel model)
         {
+            if (model.ClientId == null)
+            {
+                throw new Exception("Клиент не указан");
+            }
+
             int maxId = dataSource.Orders.Count > 0 ? dataSource.Orders.Max(ord => ord.Id) : 0;
             var order = new Order { Id = maxId + 1 };
             dataSource.Orders.Add(CreateModel(model, order));
@@ -65,6 +72,11 @@ namespace ComputerShopFileImplement.Implementations
 
         public void Update(OrderBindingModel model)
         {
+            if (model.ClientId == null)
+            {
+                throw new Exception("Клиент не указан");
+            }
+
             var order = dataSource.Orders.FirstOrDefault(ord => ord.Id == model.Id);
             if(order == null)
             {
@@ -89,6 +101,7 @@ namespace ComputerShopFileImplement.Implementations
         private Order CreateModel(OrderBindingModel model, Order order)
         {
             order.ComputerId = model.ComputerId;
+            order.ClientId = model.ClientId.Value;
             order.Count = model.Count;
             order.DateCreate = model.DateCreate;
             order.DateImplement = model.DateImplement;
@@ -103,7 +116,9 @@ namespace ComputerShopFileImplement.Implementations
             {
                 Id = order.Id,
                 ComputerId = order.ComputerId,
+                ClientId = order.ClientId,
                 ComputerName = dataSource.Computers.FirstOrDefault(comp => comp.Id == order.ComputerId)?.ComputerName,
+                ClientName = dataSource.Clients.FirstOrDefault(client => client.Id == order.ClientId)?.ClientName,
                 Count = order.Count,
                 DateCreate = order.DateCreate,
                 DateImplement = order.DateImplement,

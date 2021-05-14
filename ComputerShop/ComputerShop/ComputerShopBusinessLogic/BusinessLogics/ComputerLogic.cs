@@ -34,7 +34,7 @@ namespace ComputerShopBusinessLogic.BusinessLogics
 
         public void CreateOrUpdate(ComputerBindingModel model)
         {
-            var comp = computerStorage.GetElement(model);
+            var comp = computerStorage.GetElement(new ComputerBindingModel { ComputerName = model.ComputerName });
 
             if(comp != null && comp.Id != model.Id)
             {
@@ -57,7 +57,7 @@ namespace ComputerShopBusinessLogic.BusinessLogics
 
             if(comp == null)
             {
-                throw new Exception("Элемент не найден");
+                throw new Exception("Компьютер не найден");
             }
 
             computerStorage.Delete(model);

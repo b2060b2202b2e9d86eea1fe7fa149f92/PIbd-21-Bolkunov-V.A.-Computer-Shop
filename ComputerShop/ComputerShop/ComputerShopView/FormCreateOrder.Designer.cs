@@ -37,11 +37,13 @@ namespace ComputerShopView
             this.ComputersComboBox = new System.Windows.Forms.ComboBox();
             this.CountTextBox = new System.Windows.Forms.TextBox();
             this.PriceTextBox = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.ClientsComboBox = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // SaveButton
             // 
-            this.SaveButton.Location = new System.Drawing.Point(355, 86);
+            this.SaveButton.Location = new System.Drawing.Point(355, 118);
             this.SaveButton.Name = "SaveButton";
             this.SaveButton.Size = new System.Drawing.Size(91, 23);
             this.SaveButton.TabIndex = 12;
@@ -51,7 +53,7 @@ namespace ComputerShopView
             // 
             // CloseButton
             // 
-            this.CloseButton.Location = new System.Drawing.Point(452, 86);
+            this.CloseButton.Location = new System.Drawing.Point(452, 118);
             this.CloseButton.Name = "CloseButton";
             this.CloseButton.Size = new System.Drawing.Size(91, 23);
             this.CloseButton.TabIndex = 11;
@@ -62,7 +64,7 @@ namespace ComputerShopView
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 9);
+            this.label1.Location = new System.Drawing.Point(12, 14);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(68, 13);
             this.label1.TabIndex = 13;
@@ -71,7 +73,7 @@ namespace ComputerShopView
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 36);
+            this.label2.Location = new System.Drawing.Point(11, 70);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(69, 13);
             this.label2.TabIndex = 14;
@@ -80,7 +82,7 @@ namespace ComputerShopView
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 63);
+            this.label3.Location = new System.Drawing.Point(12, 97);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(44, 13);
             this.label3.TabIndex = 15;
@@ -97,7 +99,7 @@ namespace ComputerShopView
             // 
             // CountTextBox
             // 
-            this.CountTextBox.Location = new System.Drawing.Point(87, 33);
+            this.CountTextBox.Location = new System.Drawing.Point(87, 63);
             this.CountTextBox.Name = "CountTextBox";
             this.CountTextBox.Size = new System.Drawing.Size(456, 20);
             this.CountTextBox.TabIndex = 17;
@@ -106,16 +108,35 @@ namespace ComputerShopView
             // PriceTextBox
             // 
             this.PriceTextBox.Enabled = false;
-            this.PriceTextBox.Location = new System.Drawing.Point(87, 60);
+            this.PriceTextBox.Location = new System.Drawing.Point(87, 90);
             this.PriceTextBox.Name = "PriceTextBox";
             this.PriceTextBox.Size = new System.Drawing.Size(456, 20);
             this.PriceTextBox.TabIndex = 18;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(12, 41);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(46, 13);
+            this.label4.TabIndex = 19;
+            this.label4.Text = "Клиент:";
+            // 
+            // ClientsComboBox
+            // 
+            this.ClientsComboBox.FormattingEnabled = true;
+            this.ClientsComboBox.Location = new System.Drawing.Point(87, 33);
+            this.ClientsComboBox.Name = "ClientsComboBox";
+            this.ClientsComboBox.Size = new System.Drawing.Size(456, 21);
+            this.ClientsComboBox.TabIndex = 20;
             // 
             // FormCreateOrder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(555, 114);
+            this.ClientSize = new System.Drawing.Size(555, 153);
+            this.Controls.Add(this.ClientsComboBox);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.PriceTextBox);
             this.Controls.Add(this.CountTextBox);
             this.Controls.Add(this.ComputersComboBox);
@@ -142,5 +163,7 @@ namespace ComputerShopView
         private System.Windows.Forms.ComboBox ComputersComboBox;
         private System.Windows.Forms.TextBox CountTextBox;
         private System.Windows.Forms.TextBox PriceTextBox;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox ClientsComboBox;
     }
 }

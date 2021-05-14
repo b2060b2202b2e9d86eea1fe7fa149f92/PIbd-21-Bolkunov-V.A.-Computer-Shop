@@ -17,16 +17,19 @@ namespace ComputerShopFileImplement
         private readonly string ComponentsFileName = "Components.xml";
         private readonly string OrdersFileName = "Orders.xml";
         private readonly string ComputersFileName = "Computers.xml";
+        private readonly string ClientsFileName = "Clients.xml";
 
         public List<Component> Components { get; set; }
         public List<Order> Orders { get; set; }
         public List<Computer> Computers { get; set; }
+        public List<Client> Clients { get; set; }
 
         private FileDataListSingleton()
         {
             Orders = LoadOrders();
             Components = LoadComponents();
             Computers = LoadComputers();
+            Clients = LoadClients();
         }
 
         public static FileDataListSingleton GetInstance()
@@ -43,6 +46,7 @@ namespace ComputerShopFileImplement
             SaveComponents();
             SaveOrders();
             SaveComputers();
+            SaveClients();
         }
 
         private List<Component> LoadComponents()
@@ -79,14 +83,16 @@ namespace ComputerShopFileImplement
                 foreach (var element in xElements)
                 {
                     DateTime? dateImplement = null;
-                    if(!String.IsNullOrEmpty(element.Element("DateImplement").Value))
+                    if (!String.IsNullOrEmpty(element.Element("DateImplement").Value))
                     {
                         dateImplement = DateTime.Parse(element.Element("DateImplement").Value);
                     }
+
                     list.Add(new Order
                     {
                         Id = Convert.ToInt32(element.Attribute("Id").Value),
                         ComputerId = Convert.ToInt32(element.Element("ComputerId").Value),
+                        ClientId = Convert.ToInt32(element.Element("ClientId").Value),
                         Count = Convert.ToInt32(element.Element("Count").Value),
                         Status = (OrderStatus)Convert.ToInt32(element.Element("Status").Value),
                         Sum = Convert.ToDecimal(element.Element("Sum").Value),
@@ -131,6 +137,30 @@ namespace ComputerShopFileImplement
             return list;
         }
 
+        private List<Client> LoadClients()
+        {
+            var list = new List<Client>();
+
+            if(File.Exists(ClientsFileName))
+            {
+                var xDocument = XDocument.Load(ClientsFileName);
+                var xElements = xDocument.Root.Elements("Clients").ToList();
+
+                foreach (var elem in xElements)
+                {
+                    list.Add(new Client 
+                    {
+                        Id = Convert.ToInt32(elem.Attribute("Id").Value),
+                        ClientName = elem.Element("ClientName").Value,
+                        ClientLogin = elem.Element("ClientLogin").Value,
+                        PasswordHash = elem.Element("PasswordHash").Value
+                    });
+                }
+            }
+
+            return list;
+        }
+
         private void SaveComponents()
         {
             if(Components != null)
@@ -165,6 +195,7 @@ namespace ComputerShopFileImplement
                             "Order",
                             new XAttribute("Id", order.Id),
                             new XElement("ComputerId", order.ComputerId),
+                            new XElement("ClientId", order.ClientId),
                             new XElement("Count", order.Count),
                             new XElement("Status", (int)order.Status),
                             new XElement("Sum", order.Sum),
@@ -209,6 +240,29 @@ namespace ComputerShopFileImplement
 
                 var xDocument = new XDocument(xElement);
                 xDocument.Save(ComputersFileName);
+            }
+        }
+
+        private void SaveClients()
+        {
+            if (Clients != null)
+            {
+                var xElement = new XElement("Clients");
+
+                foreach(var client in Clients)
+                {
+                    xElement.Add(new XElement
+                        (
+                            "Client",
+                            new XAttribute("Id", client.Id),
+                            new XElement("ClientName", client.ClientName),
+                            new XElement("ClientLogin", client.ClientLogin),
+                            new XElement("PasswordHash", client.PasswordHash)
+                        ));
+                }
+
+                var xDocument = new XDocument(xElement);
+                xDocument.Save(ClientsFileName);
             }
         }
     }

@@ -57,7 +57,7 @@ namespace ComputerShopBusinessLogic.BusinessLogics
             
             if(element == null)
             {
-                throw new Exception("Элемент не найден");
+                throw new Exception("Компонент не найден");
             }
 
             componentStorage.Delete(model);

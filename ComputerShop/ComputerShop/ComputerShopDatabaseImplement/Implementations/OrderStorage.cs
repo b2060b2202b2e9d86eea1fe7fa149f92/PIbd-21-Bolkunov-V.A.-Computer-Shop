@@ -24,8 +24,11 @@ namespace ComputerShopDatabaseImplement.Implementations
                             {
                                 Id = ord.Id,
                                 ComputerId = ord.ComputerId,
+                                ClientId = ord.ClientId,
                                 ComputerName = context.Computers
                                     .FirstOrDefault(comp => comp.Id == ord.ComputerId).ComputerName,
+                                ClientName = context.Clients
+                                    .FirstOrDefault(c => c.Id == ord.ClientId).ClientName,
                                 Count = ord.Count,
                                 Status = ord.Status,
                                 Sum = ord.Sum,
@@ -55,8 +58,10 @@ namespace ComputerShopDatabaseImplement.Implementations
                         (model.DateTo != null && 
                                     (ord.DateCreate.Date <= model.DateTo.Value.Date ||
                                     (ord.DateImplement != null && 
-                                        ord.DateImplement.Value.Date <= model.DateTo.Value.Date))) || 
-                        ord.ComputerId == model.ComputerId))
+                                        ord.DateImplement.Value.Date <= model.DateTo.Value.Date))) ||
+                         (model.ClientId.HasValue &&
+                        ord.ClientId == model.ClientId) ||
+                        ord.DateCreate == model.DateCreate))
                     .ToList()
                     .Select<Order, OrderViewModel>
                         (
@@ -65,7 +70,10 @@ namespace ComputerShopDatabaseImplement.Implementations
                                 Id = ord.Id,
                                 ComputerId = ord.ComputerId,
                                 ComputerName = context.Computers
-                                    .FirstOrDefault(comp => comp.Id == ord.ComputerId).ComputerName,
+                                    .FirstOrDefault(comp => comp.Id == ord.ComputerId)?.ComputerName,
+                                ClientId = ord.ClientId,
+                                ClientName = context.Clients
+                                    .FirstOrDefault(c => c.Id == ord.ClientId)?.ClientName,
                                 Count = ord.Count,
                                 Status = ord.Status,
                                 Sum = ord.Sum,
@@ -100,6 +108,9 @@ namespace ComputerShopDatabaseImplement.Implementations
                         ComputerId = order.ComputerId,
                         ComputerName = context.Computers
                             .FirstOrDefault(comp => comp.Id == order.ComputerId)?.ComputerName,
+                        ClientId = order.ClientId,
+                        ClientName = context.Clients
+                                .FirstOrDefault(c => c.Id == order.ClientId)?.ClientName,
                         Count = order.Count,
                         Status = order.Status,
                         Sum = order.Sum,
@@ -112,6 +123,11 @@ namespace ComputerShopDatabaseImplement.Implementations
 
         public void Insert(OrderBindingModel model)
         {
+            if (model.ClientId == null)
+            {
+                throw new Exception("Клиент не указан");
+            }
+
             using (var context = new ComputerShopDatabase())
             {
                 context.Orders.Add(CreateModel(model, new Order()));
@@ -121,6 +137,11 @@ namespace ComputerShopDatabaseImplement.Implementations
 
         public void Update(OrderBindingModel model)
         {
+            if (model.ClientId == null)
+            {
+                throw new Exception("Клиент не указан");
+            }
+
             using (var context = new ComputerShopDatabase())
             {
                 var order = context.Orders.FirstOrDefault(ord => ord.Id == model.Id);
@@ -156,6 +177,7 @@ namespace ComputerShopDatabaseImplement.Implementations
         private Order CreateModel(OrderBindingModel model, Order order)
         {
             order.ComputerId = model.ComputerId;
+            order.ClientId = model.ClientId.Value;
             order.Count = model.Count;
             order.Status = model.Status;
             order.Sum = model.Sum;

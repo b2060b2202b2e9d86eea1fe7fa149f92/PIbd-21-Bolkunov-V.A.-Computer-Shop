@@ -13,6 +13,8 @@ namespace ComputerShopDatabaseImplement.Models
 
         public int ComputerId { get; set; }
 
+        public int ClientId { get; set; }
+
         [Required]
         public int Count { get; set; }
 
