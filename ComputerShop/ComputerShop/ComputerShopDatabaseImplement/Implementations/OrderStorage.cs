@@ -4,6 +4,7 @@ using System.Text;
 using ComputerShopBusinessLogic.BindingModels;
 using ComputerShopBusinessLogic.Interfaces;
 using ComputerShopBusinessLogic.ViewModels;
+using ComputerShopBusinessLogic.Enums;
 using ComputerShopDatabaseImplement.Models;
 using System.Linq;
 using System.Linq.Expressions;
@@ -25,15 +26,19 @@ namespace ComputerShopDatabaseImplement.Implementations
                                 Id = ord.Id,
                                 ComputerId = ord.ComputerId,
                                 ClientId = ord.ClientId,
+                                ImplementerId = ord.ImplementerId,
                                 ComputerName = context.Computers
                                     .FirstOrDefault(comp => comp.Id == ord.ComputerId).ComputerName,
                                 ClientName = context.Clients
                                     .FirstOrDefault(c => c.Id == ord.ClientId).ClientName,
+                                ImplementerName = context.Implementers
+                                    .FirstOrDefault(imp => imp.Id == ord.ImplementerId).ImplementerName,
                                 Count = ord.Count,
                                 Status = ord.Status,
                                 Sum = ord.Sum,
                                 DateCreate = ord.DateCreate,
-                                DateImplement = ord.DateImplement
+                                DateImplement = ord.DateImplement,
+                                FreeOrders = ord.FreeOrders
                             }
                         )
                     .ToList();
@@ -59,11 +64,13 @@ namespace ComputerShopDatabaseImplement.Implementations
                                     (ord.DateCreate.Date <= model.DateTo.Value.Date ||
                                     (ord.DateImplement != null && 
                                         ord.DateImplement.Value.Date <= model.DateTo.Value.Date))) ||
-                         (model.ClientId.HasValue &&
-                        ord.ClientId == model.ClientId) ||
-                        ord.DateCreate == model.DateCreate))
+                        ord.DateCreate == model.DateCreate ||
+                        (model.ClientId.HasValue && ord.ClientId == model.ClientId) ||
+                        (model.FreeOrders.HasValue && model.FreeOrders.Value && ord.Status == OrderStatus.Принят) ||
+                        (model.ImplementerId.HasValue && ord.ImplementerId == model.ImplementerId &&
+                            ord.Status == OrderStatus.Выполняется)))
                     .ToList()
-                    .Select<Order, OrderViewModel>
+                    .Select
                         (
                             ord => new OrderViewModel
                             {
@@ -74,11 +81,15 @@ namespace ComputerShopDatabaseImplement.Implementations
                                 ClientId = ord.ClientId,
                                 ClientName = context.Clients
                                     .FirstOrDefault(c => c.Id == ord.ClientId)?.ClientName,
+                                ImplementerId = ord.ImplementerId,
+                                ImplementerName = context.Implementers
+                                    .FirstOrDefault(imp => imp.Id == ord.ImplementerId)?.ImplementerName,
                                 Count = ord.Count,
                                 Status = ord.Status,
                                 Sum = ord.Sum,
                                 DateCreate = ord.DateCreate,
-                                DateImplement = ord.DateImplement
+                                DateImplement = ord.DateImplement,
+                                FreeOrders = ord.FreeOrders
                             }
                         )
                     .ToList();
@@ -111,11 +122,15 @@ namespace ComputerShopDatabaseImplement.Implementations
                         ClientId = order.ClientId,
                         ClientName = context.Clients
                                 .FirstOrDefault(c => c.Id == order.ClientId)?.ClientName,
+                        ImplementerId = order.ImplementerId,
+                        ImplementerName = context.Implementers
+                                    .FirstOrDefault(imp => imp.Id == order.ImplementerId)?.ImplementerName,
                         Count = order.Count,
                         Status = order.Status,
                         Sum = order.Sum,
                         DateCreate = order.DateCreate,
-                        DateImplement = order.DateImplement
+                        DateImplement = order.DateImplement,
+                        FreeOrders = order.FreeOrders
                     };
                 }
             }
@@ -178,11 +193,13 @@ namespace ComputerShopDatabaseImplement.Implementations
         {
             order.ComputerId = model.ComputerId;
             order.ClientId = model.ClientId.Value;
+            order.ImplementerId = model.ImplementerId;
             order.Count = model.Count;
             order.Status = model.Status;
             order.Sum = model.Sum;
             order.DateCreate = model.DateCreate;
             order.DateImplement = model.DateImplement;
+            order.FreeOrders = model.FreeOrders;
             return order;
         }
     }

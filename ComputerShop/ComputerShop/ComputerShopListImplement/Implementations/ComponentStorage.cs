@@ -47,14 +47,14 @@ namespace ComputerShopListImplement.Implementations
 
         public ComponentViewModel GetElement(ComponentBindingModel model)
         {
-            if (model == null)
+            if(model == null)
             {
                 return null;
             }
 
             foreach (var component in dataSource.Components)
             {
-                if (component.Id == model.Id || component.ComponentName == model.ComponentName)
+                if(component.Id == model.Id || component.ComponentName == model.ComponentName)
                 {
                     return CreateModel(component);
                 }
@@ -84,17 +84,17 @@ namespace ComputerShopListImplement.Implementations
             Component temp = null;
             foreach (var component in dataSource.Components)
             {
-                if (component.Id == model.Id)
+                if(component.Id == model.Id)
                 {
                     temp = component;
                 }
-                else if (component.ComponentName == model.ComponentName)
+                else if(component.ComponentName == model.ComponentName)
                 {
                     throw new Exception("Компонент с таким названием уже существует");
                 }
             }
 
-            if (temp == null)
+            if(temp == null)
             {
                 throw new Exception("Компонент не найден");
             }
@@ -106,7 +106,7 @@ namespace ComputerShopListImplement.Implementations
         {
             for (int i = 0; i < dataSource.Components.Count; ++i)
             {
-                if (dataSource.Components[i].Id == model.Id.Value ||
+                if(dataSource.Components[i].Id == model.Id.Value || 
                     dataSource.Components[i].ComponentName == model.ComponentName)
                 {
                     dataSource.Components.RemoveAt(i);

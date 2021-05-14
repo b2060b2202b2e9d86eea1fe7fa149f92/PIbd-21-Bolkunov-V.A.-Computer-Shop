@@ -13,9 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComputerShopFileImplement",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComputerShopDatabaseImplement", "ComputerShopDatabaseImplement\ComputerShopDatabaseImplement.csproj", "{54552795-26B8-4043-B6A4-35AD57A950E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComputerShopRestApi", "ComputerShopRestApi\ComputerShopRestApi.csproj", "{615F3273-3ABE-49DD-AF14-A4DC13367912}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComputerShopRestApi", "ComputerShopRestApi\ComputerShopRestApi.csproj", "{615F3273-3ABE-49DD-AF14-A4DC13367912}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComputerShopClientApp", "ComputerShopClientApp\ComputerShopClientApp.csproj", "{CA82D4D4-4BB4-49A6-B622-B8EADBF2AB9B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComputerShopClientApp", "ComputerShopClientApp\ComputerShopClientApp.csproj", "{CA82D4D4-4BB4-49A6-B622-B8EADBF2AB9B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -63,14 +63,14 @@ namespace ComputerShopFileImplement.Implementations
 
         public void Update(ComponentBindingModel model)
         {
-            if (dataSource.Components.Any(comp => comp.Id != model.Id && comp.ComponentName == model.ComponentName))
+            if(dataSource.Components.Any(comp => comp.Id != model.Id && comp.ComponentName == model.ComponentName))
             {
                 throw new Exception("Компонент c таким названием уже существует");
             }
 
             var element = dataSource.Components.FirstOrDefault(comp => comp.Id == model.Id);
 
-            if (element == null)
+            if(element == null)
             {
                 throw new Exception("Компонент не найден");
             }

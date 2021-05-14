@@ -44,6 +44,8 @@ namespace ComputerShopView
             this.FinishOrderButton = new System.Windows.Forms.Button();
             this.PayOrderButton = new System.Windows.Forms.Button();
             this.RefreshButton = new System.Windows.Forms.Button();
+            this.DoWorkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ImplementerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ordersDataGridView)).BeginInit();
             this.SuspendLayout();
@@ -52,7 +54,8 @@ namespace ComputerShopView
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.справочникиToolStripMenuItem,
-            this.отчетToolStripMenuItem});
+            this.отчетToolStripMenuItem,
+            this.DoWorkToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(822, 24);
@@ -64,7 +67,8 @@ namespace ComputerShopView
             this.справочникиToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ComponentsToolStripMenuItem,
             this.ComputersToolStripMenuItem,
-            this.ClientsToolStripMenuItem});
+            this.ClientsToolStripMenuItem,
+            this.ImplementerToolStripMenuItem});
             this.справочникиToolStripMenuItem.Name = "справочникиToolStripMenuItem";
             this.справочникиToolStripMenuItem.Size = new System.Drawing.Size(94, 20);
             this.справочникиToolStripMenuItem.Text = "Справочники";
@@ -148,6 +152,7 @@ namespace ComputerShopView
             this.TakeOrderInWorkButton.TabIndex = 3;
             this.TakeOrderInWorkButton.Text = "Отдать на выполнение";
             this.TakeOrderInWorkButton.UseVisualStyleBackColor = true;
+            this.TakeOrderInWorkButton.Visible = false;
             this.TakeOrderInWorkButton.Click += new System.EventHandler(this.TakeOrderInWorkButton_Click);
             // 
             // FinishOrderButton
@@ -158,6 +163,7 @@ namespace ComputerShopView
             this.FinishOrderButton.TabIndex = 4;
             this.FinishOrderButton.Text = "Зкаказ готов";
             this.FinishOrderButton.UseVisualStyleBackColor = true;
+            this.FinishOrderButton.Visible = false;
             this.FinishOrderButton.Click += new System.EventHandler(this.FinishOrderButton_Click);
             // 
             // PayOrderButton
@@ -179,6 +185,20 @@ namespace ComputerShopView
             this.RefreshButton.Text = "Обновить список";
             this.RefreshButton.UseVisualStyleBackColor = true;
             this.RefreshButton.Click += new System.EventHandler(this.RefreshButton_Click);
+            // 
+            // DoWorkToolStripMenuItem
+            // 
+            this.DoWorkToolStripMenuItem.Name = "DoWorkToolStripMenuItem";
+            this.DoWorkToolStripMenuItem.Size = new System.Drawing.Size(92, 20);
+            this.DoWorkToolStripMenuItem.Text = "Запуск работ";
+            this.DoWorkToolStripMenuItem.Click += new System.EventHandler(this.DoWorkToolStripMenuItem_Click);
+            // 
+            // ImplementerToolStripMenuItem
+            // 
+            this.ImplementerToolStripMenuItem.Name = "ImplementerToolStripMenuItem";
+            this.ImplementerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.ImplementerToolStripMenuItem.Text = "Исполнители";
+            this.ImplementerToolStripMenuItem.Click += new System.EventHandler(this.ImplementerToolStripMenuItem_Click);
             // 
             // FormMain
             // 
@@ -221,5 +241,7 @@ namespace ComputerShopView
         private System.Windows.Forms.ToolStripMenuItem ComputerComponentsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem OrdersListToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ClientsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ImplementerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem DoWorkToolStripMenuItem;
     }
 }

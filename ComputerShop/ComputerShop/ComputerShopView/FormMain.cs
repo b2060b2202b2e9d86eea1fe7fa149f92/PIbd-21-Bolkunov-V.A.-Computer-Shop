@@ -17,11 +17,14 @@ namespace ComputerShopView
 
         private readonly ReportLogic reportLogic;
 
-        public FormMain(OrderLogic orderLogic, ReportLogic reportLogic)
+        private readonly WorkModeling workModeling;
+
+        public FormMain(OrderLogic orderLogic, ReportLogic reportLogic, WorkModeling workModeling)
         {
             InitializeComponent();
             this.orderLogic = orderLogic;
             this.reportLogic = reportLogic;
+            this.workModeling = workModeling;
         }
 
         private void FormMain_Load(object sender, EventArgs e)
@@ -38,35 +41,19 @@ namespace ComputerShopView
                 {
                     ordersDataGridView.DataSource = list;
 
-                    ordersDataGridView.Columns[0].Visible = false;
-                    ordersDataGridView.Columns[0].ReadOnly = true;
-                    
-                    ordersDataGridView.Columns[1].Visible = false;
-                    ordersDataGridView.Columns[1].ReadOnly = true;
-
-                    ordersDataGridView.Columns[2].Visible = false;
-                    ordersDataGridView.Columns[3].ReadOnly = true;
-
-                    ordersDataGridView.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                    ordersDataGridView.Columns[2].ReadOnly = true;
-                    
-                    ordersDataGridView.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                    ordersDataGridView.Columns[3].ReadOnly = true;
-                    
-                    ordersDataGridView.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                    ordersDataGridView.Columns[4].ReadOnly = true;
-                    
-                    ordersDataGridView.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                    ordersDataGridView.Columns[5].ReadOnly = true;
-                    
-                    ordersDataGridView.Columns[6].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                    ordersDataGridView.Columns[6].ReadOnly = true;
-                    
-                    ordersDataGridView.Columns[7].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                    ordersDataGridView.Columns[7].ReadOnly = true;
-
-                    ordersDataGridView.Columns[8].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                    ordersDataGridView.Columns[8].ReadOnly = true;
+                    for (int i = 0; i <= 12; i++)
+                    {
+                        if (i <= 3 || i == 12)
+                        {
+                            ordersDataGridView.Columns[i].Visible = false;
+                        }
+                        else
+                        {
+                            ordersDataGridView.Columns[i].Visible = true;
+                            ordersDataGridView.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                        }
+                        ordersDataGridView.Columns[i].ReadOnly = true;
+                    }
                 }
             }
             catch (Exception ex)
@@ -178,6 +165,17 @@ namespace ComputerShopView
         {
             var form = Container.Resolve<FormClients>();
             form.ShowDialog();
+        }
+
+        private void ImplementerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormImplementers>();
+            form.ShowDialog();
+        }
+
+        private void DoWorkToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            workModeling.DoWork();
         }
     }
 }

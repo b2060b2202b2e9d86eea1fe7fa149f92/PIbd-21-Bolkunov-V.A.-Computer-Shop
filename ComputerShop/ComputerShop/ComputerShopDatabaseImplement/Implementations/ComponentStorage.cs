@@ -66,7 +66,7 @@ namespace ComputerShopDatabaseImplement.Implementations
                         Id = component.Id,
                         ComponentName = component.ComponentName
                     };
-
+                    
             }
         }
 
@@ -88,7 +88,7 @@ namespace ComputerShopDatabaseImplement.Implementations
         {
             using (var context = new ComputerShopDatabase())
             {
-                if (context.Components.Any(c => c.Id != model.Id && c.ComponentName == model.ComponentName))
+                if(context.Components.Any(c => c.Id != model.Id && c.ComponentName == model.ComponentName))
                 {
                     throw new Exception("Компонент с таким названием уже существует");
                 }
@@ -96,7 +96,7 @@ namespace ComputerShopDatabaseImplement.Implementations
                 var component = context.Components
                     .FirstOrDefault(comp => comp.Id == model.Id);
 
-                if (component == null)
+                if(component == null)
                 {
                     throw new Exception("Компонент не найден");
                 }
@@ -108,7 +108,7 @@ namespace ComputerShopDatabaseImplement.Implementations
 
         public void Delete(ComponentBindingModel model)
         {
-            using (var context = new ComputerShopDatabase())
+            using(var context = new ComputerShopDatabase())
             {
                 var component = context.Components
                     .FirstOrDefault(comp => comp.Id == model.Id || comp.ComponentName == model.ComponentName);

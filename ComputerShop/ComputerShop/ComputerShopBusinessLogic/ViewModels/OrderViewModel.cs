@@ -15,11 +15,17 @@ namespace ComputerShopBusinessLogic.ViewModels
         [DataMember]
         public int ClientId { get; set; }
         [DataMember]
+        public int? ImplementerId { get; set; }
+        [DataMember]
         public int ComputerId {get; set;}
 
         [DataMember]
         [DisplayName("Клиент")]
         public string ClientName { get; set; }
+
+        [DataMember]
+        [DisplayName("Исполнитель")]
+        public string ImplementerName { get; set; }
 
         [DataMember]
         [DisplayName("Компьютер")]
@@ -44,5 +50,9 @@ namespace ComputerShopBusinessLogic.ViewModels
         [DataMember]
         [DisplayName("Дата выполнения")]
         public DateTime? DateImplement { get; set; }
+
+        [DataMember]
+        [DisplayName("Заказ свободен")]
+        public bool? FreeOrders { get; set; }
     }
 }

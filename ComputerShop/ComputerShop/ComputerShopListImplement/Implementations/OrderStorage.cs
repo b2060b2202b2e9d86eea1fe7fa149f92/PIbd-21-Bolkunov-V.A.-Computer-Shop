@@ -4,6 +4,7 @@ using System.Text;
 using ComputerShopBusinessLogic.BindingModels;
 using ComputerShopBusinessLogic.Interfaces;
 using ComputerShopBusinessLogic.ViewModels;
+using ComputerShopBusinessLogic.Enums;
 using ComputerShopListImplement.Models;
 
 namespace ComputerShopListImplement.Implementations
@@ -45,9 +46,11 @@ namespace ComputerShopListImplement.Implementations
                                     (ord.DateCreate.Date <= model.DateTo.Value.Date ||
                                     (ord.DateImplement != null &&
                                         ord.DateImplement.Value.Date <= model.DateTo.Value.Date))) ||
-                        (model.ClientId.HasValue &&
-                        ord.ClientId == model.ClientId) ||
-                        ord.DateCreate == model.DateCreate)
+                        ord.DateCreate == model.DateCreate ||
+                        (model.ClientId.HasValue && ord.ClientId == model.ClientId) ||
+                        (model.FreeOrders.HasValue && model.FreeOrders.Value && ord.Status == OrderStatus.Принят) ||
+                        (model.ImplementerId.HasValue && ord.ImplementerId == model.ImplementerId && 
+                            ord.Status == OrderStatus.Выполняется))
                 {
                     res.Add(CreateModel(ord));
                 }
@@ -131,11 +134,13 @@ namespace ComputerShopListImplement.Implementations
         {
             order.ComputerId = model.ComputerId;
             order.ClientId = model.ClientId.Value;
+            order.ImplementerId = model.ImplementerId;
             order.Count = model.Count;
             order.DateCreate = model.DateCreate;
             order.DateImplement = model.DateImplement;
             order.Status = model.Status;
             order.Sum = model.Sum;
+            order.FreeOrders = model.FreeOrders;
             return order;
         }
 
@@ -149,19 +154,29 @@ namespace ComputerShopListImplement.Implementations
                     {
                         if (client.Id == order.ClientId)
                         {
-                            return new OrderViewModel
+                            foreach (var imp in dataSource.Implementers)
                             {
-                                Id = order.Id,
-                                ComputerId = order.ComputerId,
-                                ClientId = order.ClientId,
-                                ComputerName = comp.ComputerName,
-                                ClientName = client.ClientName,
-                                Count = order.Count,
-                                Sum = order.Sum,
-                                Status = order.Status,
-                                DateCreate = order.DateCreate,
-                                DateImplement = order.DateImplement
-                            };
+                                if (!order.ImplementerId.HasValue || imp.Id == order.ImplementerId)
+                                {
+                                    return new OrderViewModel
+                                    {
+                                        Id = order.Id,
+                                        ComputerId = order.ComputerId,
+                                        ClientId = order.ClientId,
+                                        ImplementerId = order.ImplementerId,
+                                        ComputerName = comp.ComputerName,
+                                        ClientName = client.ClientName,
+                                        ImplementerName = order.ImplementerId.HasValue ? imp.ImplementerName : null,
+                                        Count = order.Count,
+                                        Sum = order.Sum,
+                                        Status = order.Status,
+                                        DateCreate = order.DateCreate,
+                                        DateImplement = order.DateImplement,
+                                        FreeOrders = order.FreeOrders
+                                    };
+                                }
+                                throw new Exception("Нужный исполнитель не найден");
+                            }
                         }
                     }
                     throw new Exception("Клиент не найден");

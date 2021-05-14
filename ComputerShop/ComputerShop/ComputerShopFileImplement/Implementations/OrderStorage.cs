@@ -5,6 +5,7 @@ using System.Linq;
 using ComputerShopBusinessLogic.BindingModels;
 using ComputerShopBusinessLogic.ViewModels;
 using ComputerShopBusinessLogic.Interfaces;
+using ComputerShopBusinessLogic.Enums;
 using ComputerShopFileImplement.Models;
 
 namespace ComputerShopFileImplement.Implementations
@@ -40,9 +41,11 @@ namespace ComputerShopFileImplement.Implementations
                                     (ord.DateCreate.Date <= model.DateTo.Value.Date ||
                                     (ord.DateImplement != null &&
                                         ord.DateImplement.Value.Date <= model.DateTo.Value.Date))) ||
-                         (model.ClientId.HasValue &&
-                        ord.ClientId == model.ClientId) ||
-                        ord.DateCreate == model.DateCreate))
+                         ord.DateCreate == model.DateCreate ||
+                        (model.ClientId.HasValue && ord.ClientId == model.ClientId) ||
+                        (model.FreeOrders.HasValue && model.FreeOrders.Value && ord.Status == OrderStatus.Принят) ||
+                        (model.ImplementerId.HasValue && ord.ImplementerId == model.ImplementerId &&
+                            ord.Status == OrderStatus.Выполняется)))
                 .Select(CreateModel)
                 .ToList();
         }
@@ -102,11 +105,13 @@ namespace ComputerShopFileImplement.Implementations
         {
             order.ComputerId = model.ComputerId;
             order.ClientId = model.ClientId.Value;
+            order.ImplementerId = model.ImplementerId;
             order.Count = model.Count;
             order.DateCreate = model.DateCreate;
             order.DateImplement = model.DateImplement;
             order.Status = model.Status;
             order.Sum = model.Sum;
+            order.FreeOrders = model.FreeOrders;
             return order;
         }
 
@@ -117,13 +122,16 @@ namespace ComputerShopFileImplement.Implementations
                 Id = order.Id,
                 ComputerId = order.ComputerId,
                 ClientId = order.ClientId,
+                ImplementerId = order.ImplementerId,
                 ComputerName = dataSource.Computers.FirstOrDefault(comp => comp.Id == order.ComputerId)?.ComputerName,
                 ClientName = dataSource.Clients.FirstOrDefault(client => client.Id == order.ClientId)?.ClientName,
+                ImplementerName = dataSource.Implementers.FirstOrDefault(imp => imp.Id == order.ImplementerId)?.ImplementerName,
                 Count = order.Count,
                 DateCreate = order.DateCreate,
                 DateImplement = order.DateImplement,
                 Status = order.Status,
-                Sum = order.Sum
+                Sum = order.Sum,
+                FreeOrders = order.FreeOrders
             };
         }
     }

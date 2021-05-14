@@ -64,7 +64,7 @@ namespace ComputerShopDatabaseImplement.Implementations
                     }).ToList();
             }
         }
-
+        
         public ComputerViewModel GetElement(ComputerBindingModel model)
         {
             if (model == null)
@@ -79,8 +79,8 @@ namespace ComputerShopDatabaseImplement.Implementations
                     .ThenInclude(cc => cc.Component)
                     .ToList()
                     .FirstOrDefault(comp => comp.ComputerName == model.ComputerName || comp.Id == model.Id);
-
-                if (computer == null)
+                    
+                if(computer == null)
                 {
                     return null;
                 }
@@ -92,7 +92,7 @@ namespace ComputerShopDatabaseImplement.Implementations
                         ComputerName = computer.ComputerName,
                         Price = computer.Price,
                         ComputerComponents = computer.ComputerComponents
-                            .ToDictionary<ComputerComponent, int, (string, int)>
+                            .ToDictionary<ComputerComponent,int,(string,int)>
                             (
                                 cc => cc.ComponentId,
                                 cc => CreateTuple(cc.Component.ComponentName, cc.Count)
@@ -106,7 +106,7 @@ namespace ComputerShopDatabaseImplement.Implementations
         {
             using (var context = new ComputerShopDatabase())
             {
-                if (context.Computers.Any(comp => comp.ComputerName == model.ComputerName))
+                if(context.Computers.Any(comp => comp.ComputerName == model.ComputerName))
                 {
                     throw new Exception("Компьютер с таким названием уже существует");
                 }
@@ -143,7 +143,7 @@ namespace ComputerShopDatabaseImplement.Implementations
                     {
                         var computer = context.Computers.FirstOrDefault(comp => comp.Id == model.Id);
 
-                        if (computer == null)
+                        if(computer == null)
                         {
                             throw new Exception("Компьютер не найден");
                         }
@@ -169,7 +169,7 @@ namespace ComputerShopDatabaseImplement.Implementations
                 var computer = context.Computers
                     .FirstOrDefault(comp => comp.Id == model.Id || comp.ComputerName == model.ComputerName);
 
-                if (computer == null)
+                if(computer == null)
                 {
                     throw new Exception("Компьютер не найден");
                 }
@@ -191,7 +191,7 @@ namespace ComputerShopDatabaseImplement.Implementations
             computer.ComputerName = model.ComputerName;
             computer.Price = model.Price;
 
-            if (model.Id.HasValue)
+            if(model.Id.HasValue)
             {
                 var computerComponents = context.ComputerComponents.Where(cc => cc.ComputerId == model.Id.Value).ToList();
 
@@ -199,7 +199,7 @@ namespace ComputerShopDatabaseImplement.Implementations
                     (computerComponents.Where(cc => !model.ComputerComponents.ContainsKey(cc.ComponentId)).ToList());
                 context.SaveChanges();
 
-                foreach (var updateComponent in computerComponents)
+                foreach(var updateComponent in computerComponents)
                 {
                     updateComponent.Count = model.ComputerComponents[updateComponent.ComponentId].Item2;
                     model.ComputerComponents.Remove(updateComponent.ComponentId);
@@ -208,7 +208,7 @@ namespace ComputerShopDatabaseImplement.Implementations
                 context.SaveChanges();
             }
 
-            foreach (var cc in model.ComputerComponents)
+            foreach(var cc in model.ComputerComponents)
             {
                 context.ComputerComponents.Add(new ComputerComponent
                 {
