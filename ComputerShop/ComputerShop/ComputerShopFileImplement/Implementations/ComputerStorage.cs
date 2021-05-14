@@ -56,7 +56,7 @@ namespace ComputerShopFileImplement.Implementations
             }
 
             int maxId = dataSource.Computers.Count > 0 ? dataSource.Computers.Max(comp => comp.Id) : 0;
-            var computer = new Computer { Id = maxId + 1, ComputerComponents = new Dictionary<int, int>() };
+            var computer = new Computer { Id = maxId + 1, ComputerComponents = new Dictionary<int, int>()};
             dataSource.Computers.Add(CreateModel(model, computer));
         }
 
@@ -68,7 +68,7 @@ namespace ComputerShopFileImplement.Implementations
             }
 
             var computer = dataSource.Computers.FirstOrDefault(comp => comp.Id == model.Id);
-            if (computer == null)
+            if(computer == null)
             {
                 throw new Exception("Компьютер не найден");
             }
@@ -93,7 +93,7 @@ namespace ComputerShopFileImplement.Implementations
 
             foreach (var key in computer.ComputerComponents.Keys.ToList())
             {
-                if (!model.ComputerComponents.ContainsKey(key))
+                if(!model.ComputerComponents.ContainsKey(key))
                 {
                     computer.ComputerComponents.Remove(key);
                 }
@@ -101,7 +101,7 @@ namespace ComputerShopFileImplement.Implementations
 
             foreach (var component in model.ComputerComponents)
             {
-                if (computer.ComputerComponents.ContainsKey(component.Key))
+                if(computer.ComputerComponents.ContainsKey(component.Key))
                 {
                     computer.ComputerComponents[component.Key] = model.ComputerComponents[component.Key].Item2;
                 }
@@ -124,7 +124,7 @@ namespace ComputerShopFileImplement.Implementations
                 ComputerComponents = computer.ComputerComponents.ToDictionary
                     (
                         comp => comp.Key,
-                        comp => (dataSource.Components.FirstOrDefault(cmp => cmp.Id == comp.Key)?.ComponentName, comp.Value)
+                        comp => (dataSource.Components.FirstOrDefault(cmp => cmp.Id == comp.Key)?.ComponentName,comp.Value)
                     )
             };
         }

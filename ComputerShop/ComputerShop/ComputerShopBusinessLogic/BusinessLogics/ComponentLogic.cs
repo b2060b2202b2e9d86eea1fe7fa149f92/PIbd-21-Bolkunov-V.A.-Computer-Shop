@@ -34,7 +34,8 @@ namespace ComputerShopBusinessLogic.BusinessLogics
 
         public void CreateOrUpdate(ComponentBindingModel model)
         {
-            var element = componentStorage.GetElement(new ComponentBindingModel { ComponentName = model.ComponentName });
+            var element = componentStorage
+                .GetElement(new ComponentBindingModel { ComponentName = model.ComponentName });
 
             if(element != null && element.Id != model.Id)
             {

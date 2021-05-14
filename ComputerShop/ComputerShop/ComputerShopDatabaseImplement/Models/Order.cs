@@ -15,6 +15,8 @@ namespace ComputerShopDatabaseImplement.Models
 
         public int ClientId { get; set; }
 
+        public int? ImplementerId { get; set; }
+
         [Required]
         public int Count { get; set; }
 
@@ -28,5 +30,6 @@ namespace ComputerShopDatabaseImplement.Models
         public DateTime DateCreate { get; set; }
 
         public DateTime? DateImplement { get; set; }
+        public bool? FreeOrders { get; set; }
     }
 }

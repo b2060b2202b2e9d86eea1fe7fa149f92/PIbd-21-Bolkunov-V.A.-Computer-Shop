@@ -49,14 +49,14 @@ namespace ComputerShopListImplement.Implementations
 
         public ComputerViewModel GetElement(ComputerBindingModel model)
         {
-            if (model == null)
+            if(model == null)
             {
                 return null;
             }
 
             foreach (var comp in dataSource.Computers)
             {
-                if (comp.Id == model.Id || comp.ComputerName == model.ComputerName)
+                if(comp.Id == model.Id || comp.ComputerName == model.ComputerName)
                 {
                     return CreateModel(comp);
                 }
@@ -70,11 +70,11 @@ namespace ComputerShopListImplement.Implementations
             var temp = new Computer { Id = 1, ComputerComponents = new Dictionary<int, int>() };
             foreach (var comp in dataSource.Computers)
             {
-                if (comp.ComputerName == model.ComputerName)
+                if(comp.ComputerName == model.ComputerName)
                 {
                     throw new Exception("Компьютер с таким названием уже существует");
                 }
-                if (comp.Id >= temp.Id)
+                if(comp.Id >= temp.Id)
                 {
                     temp.Id = comp.Id + 1;
                 }
@@ -87,7 +87,7 @@ namespace ComputerShopListImplement.Implementations
             Computer temp = null;
             foreach (var comp in dataSource.Computers)
             {
-                if (comp.Id == model.Id)
+                if(comp.Id == model.Id)
                 {
                     temp = comp;
                 }
@@ -96,12 +96,12 @@ namespace ComputerShopListImplement.Implementations
                     throw new Exception("Компьютер с таким названием уже существует");
                 }
             }
-
-            if (temp == null)
+            
+            if(temp == null)
             {
                 throw new Exception("Компьютер не найден");
             }
-
+           
             CreateModel(model, temp);
         }
 
@@ -109,7 +109,7 @@ namespace ComputerShopListImplement.Implementations
         {
             for (int i = 0; i < dataSource.Computers.Count; ++i)
             {
-                if (dataSource.Computers[i].Id == model.Id ||
+                if(dataSource.Computers[i].Id == model.Id || 
                     dataSource.Computers[i].ComputerName == model.ComputerName)
                 {
                     dataSource.Computers.RemoveAt(i);
@@ -126,7 +126,7 @@ namespace ComputerShopListImplement.Implementations
 
             foreach (var key in computer.ComputerComponents.Keys.ToList())
             {
-                if (!model.ComputerComponents.ContainsKey(key))
+                if(!model.ComputerComponents.ContainsKey(key))
                 {
                     computer.ComputerComponents.Remove(key);
                 }
@@ -134,7 +134,7 @@ namespace ComputerShopListImplement.Implementations
 
             foreach (var component in model.ComputerComponents)
             {
-                if (computer.ComputerComponents.ContainsKey(component.Key))
+                if(computer.ComputerComponents.ContainsKey(component.Key))
                 {
                     computer.ComputerComponents[component.Key] = model.ComputerComponents[component.Key].Item2;
                 }
@@ -156,7 +156,7 @@ namespace ComputerShopListImplement.Implementations
                 string componentName = string.Empty;
                 foreach (var sourceComponent in dataSource.Components)
                 {
-                    if (component.Key == sourceComponent.Id)
+                    if(component.Key == sourceComponent.Id)
                     {
                         componentName = sourceComponent.ComponentName;
                         break;

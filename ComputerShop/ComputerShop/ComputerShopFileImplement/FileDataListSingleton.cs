@@ -18,11 +18,13 @@ namespace ComputerShopFileImplement
         private readonly string OrdersFileName = "Orders.xml";
         private readonly string ComputersFileName = "Computers.xml";
         private readonly string ClientsFileName = "Clients.xml";
+        private readonly string ImplementersFileName = "Implementers.xml";
 
         public List<Component> Components { get; set; }
         public List<Order> Orders { get; set; }
         public List<Computer> Computers { get; set; }
         public List<Client> Clients { get; set; }
+        public List<Implementer> Implementers { get; set; }
 
         private FileDataListSingleton()
         {
@@ -30,6 +32,7 @@ namespace ComputerShopFileImplement
             Components = LoadComponents();
             Computers = LoadComputers();
             Clients = LoadClients();
+            Implementers = LoadImplementers();
         }
 
         public static FileDataListSingleton GetInstance()
@@ -47,6 +50,7 @@ namespace ComputerShopFileImplement
             SaveOrders();
             SaveComputers();
             SaveClients();
+            SaveImplementers();
         }
 
         private List<Component> LoadComponents()
@@ -88,16 +92,30 @@ namespace ComputerShopFileImplement
                         dateImplement = DateTime.Parse(element.Element("DateImplement").Value);
                     }
 
+                    bool? freeOrders = null;
+                    if (!String.IsNullOrEmpty(element.Element("FreeOrders").Value))
+                    {
+                        freeOrders = Boolean.Parse(element.Element("FreeOrders").Value);
+                    }
+
+                    int? implementerId = null;
+                    if (!String.IsNullOrEmpty(element.Element("ImplementerId").Value))
+                    {
+                        implementerId = int.Parse(element.Element("ImplementerId").Value);
+                    }
+
                     list.Add(new Order
                     {
                         Id = Convert.ToInt32(element.Attribute("Id").Value),
                         ComputerId = Convert.ToInt32(element.Element("ComputerId").Value),
                         ClientId = Convert.ToInt32(element.Element("ClientId").Value),
+                        ImplementerId = implementerId,
                         Count = Convert.ToInt32(element.Element("Count").Value),
                         Status = (OrderStatus)Convert.ToInt32(element.Element("Status").Value),
                         Sum = Convert.ToDecimal(element.Element("Sum").Value),
                         DateCreate = DateTime.Parse(element.Element("DateCreate").Value),
-                        DateImplement = dateImplement
+                        DateImplement = dateImplement,
+                        FreeOrders = freeOrders
                     });
                 }
             }
@@ -161,6 +179,30 @@ namespace ComputerShopFileImplement
             return list;
         }
 
+        private List<Implementer> LoadImplementers()
+        {
+            var list = new List<Implementer>();
+
+            if (File.Exists(ImplementersFileName))
+            {
+                var xDocument = XDocument.Load(ClientsFileName);
+                var xElements = xDocument.Root.Elements("Implementers").ToList();
+
+                foreach (var elem in xElements)
+                {
+                    list.Add(new Implementer
+                    {
+                        Id = Convert.ToInt32(elem.Attribute("Id").Value),
+                        ImplementerName = elem.Element("ImplementerName").Value,
+                        WorkingTime = Convert.ToInt32(elem.Element("WorkingTime").Value),
+                        PauseTime = Convert.ToInt32(elem.Element("PauseTime").Value)
+                    });
+                }
+            }
+
+            return list;
+        }
+
         private void SaveComponents()
         {
             if(Components != null)
@@ -196,11 +238,13 @@ namespace ComputerShopFileImplement
                             new XAttribute("Id", order.Id),
                             new XElement("ComputerId", order.ComputerId),
                             new XElement("ClientId", order.ClientId),
+                            new XElement("ImplementerId", order.ImplementerId),
                             new XElement("Count", order.Count),
                             new XElement("Status", (int)order.Status),
                             new XElement("Sum", order.Sum),
                             new XElement("DateCreate", order.DateCreate.ToString()),
-                            new XElement("DateImplement", order.DateImplement.ToString())
+                            new XElement("DateImplement", order.DateImplement.ToString()),
+                            new XElement("FreeOrders", order.FreeOrders.ToString())
                         ));
                 }
 
@@ -263,6 +307,29 @@ namespace ComputerShopFileImplement
 
                 var xDocument = new XDocument(xElement);
                 xDocument.Save(ClientsFileName);
+            }
+        }
+
+        private void SaveImplementers()
+        {
+            if(Implementers != null)
+            {
+                var xElement = new XElement("Implementers");
+
+                foreach (var imp in Implementers)
+                {
+                    xElement.Add(new XElement
+                    (
+                        "Implementer",
+                        new XAttribute("Id", imp.Id),
+                        new XElement("ImplementerName", imp.ImplementerName),
+                        new XElement("WorkingTime", imp.WorkingTime),
+                        new XElement("PauseTime", imp.PauseTime)
+                    ));
+                }
+
+                var xDocument = new XDocument(xElement);
+                xDocument.Save(ImplementersFileName);
             }
         }
     }

@@ -10,6 +10,8 @@ namespace ComputerShopBusinessLogic.BusinessLogics
 {
     public class OrderLogic
     {
+        private readonly object locker = new object();
+
         private readonly IOrderStorage orderStorage;
 
         public OrderLogic(IOrderStorage orderStorage)
@@ -36,35 +38,52 @@ namespace ComputerShopBusinessLogic.BusinessLogics
         {
             orderStorage.Insert(new OrderBindingModel
             {
-                ComputerId = model.ComputerId, ClientId = model.ClientId,
-                Count = model.Count, Sum = model.Sum, DateCreate = DateTime.Now,
+                ComputerId = model.ComputerId, ClientId = model.ClientId, ImplementerId = null,
+                Count = model.Count, Sum = model.Sum, DateCreate = DateTime.Now, FreeOrders = true,
                 Status = OrderStatus.Принят
             });
         }
 
         public void TakeOrderInWork(ChangeStatusBindingModel model)
         {
-            var order = orderStorage.GetElement(new OrderBindingModel { Id = model.OrderId });
+            lock (locker)
+            {
+                var order = orderStorage.GetElement(new OrderBindingModel { Id = model.OrderId });
 
-            if(order == null)
-            {
-                throw new Exception("Не найден заказ");
+                if (order == null)
+                {
+                    throw new Exception("Не найден заказ");
+                }
+
+                if (order.Status != OrderStatus.Принят)
+                {
+                    throw new Exception("Заказ не в статусе \"Принят\"");
+                }
+
+                if (!order.FreeOrders.HasValue || !order.FreeOrders.Value || order.ImplementerId.HasValue)
+                {
+                    throw new Exception("На заказ уже назначен исполнитель");
+                }
+
+                if (!model.ImplementerId.HasValue)
+                {
+                    throw new Exception("Отсутствует исполнитель, берущий заказ");
+                }
+
+                orderStorage.Update(new OrderBindingModel
+                {
+                    Id = order.Id,
+                    ComputerId = order.ComputerId,
+                    ClientId = order.ClientId,
+                    ImplementerId = model.ImplementerId,
+                    Count = order.Count,
+                    Sum = order.Sum,
+                    DateCreate = order.DateCreate,
+                    DateImplement = order.DateImplement,
+                    Status = OrderStatus.Выполняется,
+                    FreeOrders = false
+                });
             }
-            if(order.Status != OrderStatus.Принят)
-            {
-                throw new Exception("Заказ не в статусе \"Принят\"");
-            }
-            orderStorage.Update(new OrderBindingModel
-            {
-                Id = order.Id,
-                ComputerId = order.ComputerId,
-                ClientId = order.ClientId,
-                Count = order.Count,
-                Sum = order.Sum,
-                DateCreate = order.DateCreate,
-                DateImplement = order.DateImplement,
-                Status = OrderStatus.Выполняется
-            });
         }
 
         public void FinishOrder(ChangeStatusBindingModel model)
@@ -83,11 +102,13 @@ namespace ComputerShopBusinessLogic.BusinessLogics
                 Id = order.Id,
                 ComputerId = order.ComputerId,
                 ClientId = order.ClientId,
+                ImplementerId = order.ImplementerId,
                 Count = order.Count,
                 Sum = order.Sum,
                 DateCreate = order.DateCreate,
                 DateImplement = order.DateImplement,
-                Status = OrderStatus.Готов
+                Status = OrderStatus.Готов,
+                FreeOrders = order.FreeOrders
             });
         }
 
@@ -107,11 +128,13 @@ namespace ComputerShopBusinessLogic.BusinessLogics
                 Id = order.Id,
                 ComputerId = order.ComputerId,
                 ClientId = order.ClientId,
+                ImplementerId = order.ImplementerId,
                 Count = order.Count,
                 Sum = order.Sum,
                 DateCreate = order.DateCreate,
                 DateImplement = DateTime.Now,
-                Status = OrderStatus.Оплачен
+                Status = OrderStatus.Оплачен,
+                FreeOrders = order.FreeOrders
             });
         }
     }
