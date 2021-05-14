@@ -62,7 +62,7 @@ namespace ComputerShopDatabaseImplement.Implementations
                 if(messageInfo != null)
                 {
                     throw new Exception("Уже есть письмо с таким идентификатором");
-                }//такая проверка нужна из-за настроек моей почты
+                }
 
                 context.MessageInfos.Add(new MessageInfo 
                 { 

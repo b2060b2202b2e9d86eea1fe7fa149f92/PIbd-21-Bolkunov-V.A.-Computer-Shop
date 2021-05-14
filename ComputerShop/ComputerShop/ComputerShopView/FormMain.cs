@@ -19,12 +19,15 @@ namespace ComputerShopView
 
         private readonly WorkModeling workModeling;
 
-        public FormMain(OrderLogic orderLogic, ReportLogic reportLogic, WorkModeling workModeling)
+        private readonly BackupAbstractLogic backupAbstractLogic;
+
+        public FormMain(OrderLogic orderLogic, ReportLogic reportLogic, WorkModeling workModeling, BackupAbstractLogic backupAbstractLogic)
         {
             InitializeComponent();
             this.orderLogic = orderLogic;
             this.reportLogic = reportLogic;
             this.workModeling = workModeling;
+            this.backupAbstractLogic = backupAbstractLogic;
         }
 
         private void FormMain_Load(object sender, EventArgs e)
@@ -36,25 +39,7 @@ namespace ComputerShopView
         {
             try
             {
-                List<OrderViewModel> list = orderLogic.Read(null);
-                if(list != null)
-                {
-                    ordersDataGridView.DataSource = list;
-
-                    for (int i = 0; i <= 12; i++)
-                    {
-                        if (i <= 3 || i == 12)
-                        {
-                            ordersDataGridView.Columns[i].Visible = false;
-                        }
-                        else
-                        {
-                            ordersDataGridView.Columns[i].Visible = true;
-                            ordersDataGridView.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                        }
-                        ordersDataGridView.Columns[i].ReadOnly = true;
-                    }
-                }
+                Program.ConfigureGrid(orderLogic.Read(null), ordersDataGridView);
             }
             catch (Exception ex)
             {
@@ -176,6 +161,26 @@ namespace ComputerShopView
         private void DoWorkToolStripMenuItem_Click(object sender, EventArgs e)
         {
             workModeling.DoWork();
+        }
+
+        private void CreateBackupToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if(backupAbstractLogic != null)
+                {
+                    var fbd = new FolderBrowserDialog();
+                    if(fbd.ShowDialog() == DialogResult.OK)
+                    {
+                        backupAbstractLogic.CreateArchive(fbd.SelectedPath);
+                        MessageBox.Show("Резервная копия создана", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

@@ -33,25 +33,7 @@ namespace ComputerShopView
         {
             try
             {
-                var list = logicClient.Read(null);
-                if (list != null)
-                {
-                    clientsDataGridView.DataSource = list;
-
-                    clientsDataGridView.Columns[0].Visible = false;
-                    clientsDataGridView.Columns[0].ReadOnly = true;
-
-                    clientsDataGridView.Columns[1].Visible = true;
-                    clientsDataGridView.Columns[1].ReadOnly = true;
-
-                    clientsDataGridView.Columns[2].Visible = true;
-                    clientsDataGridView.Columns[2].ReadOnly = true;
-
-                    clientsDataGridView.Columns[3].Visible = false;
-                    clientsDataGridView.Columns[3].ReadOnly = true;
-
-                    clientMailDataGridView.ClearSelection();
-                }
+                Program.ConfigureGrid(logicClient.Read(null), clientsDataGridView);
             }
             catch(Exception ex)
             {
@@ -63,18 +45,7 @@ namespace ComputerShopView
         {
             try
             {
-                List<MessageInfoViewModel> list = mailLogic.Read(model);
-                if (list != null)
-                {
-                    clientMailDataGridView.DataSource = list;
-                    clientMailDataGridView.Columns[0].Visible = false;
-                    clientMailDataGridView.Columns[0].ReadOnly = true;
-                    for (int i = 1; i <= 4; i++)
-                    {
-                        clientMailDataGridView.Columns[i].Visible = true;
-                        clientMailDataGridView.Columns[i].ReadOnly = true;
-                    }
-                }
+                Program.ConfigureGrid(mailLogic.Read(model), clientMailDataGridView);
             }
             catch (Exception ex)
             {

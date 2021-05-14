@@ -35,18 +35,7 @@ namespace ComputerShopView
         {
             try
             {
-                var list = logic.Read(null);
-                if(list != null)
-                {
-                    implementersDataGridView.DataSource = list;
-                    implementersDataGridView.Columns[0].Visible = false;
-                    implementersDataGridView.Columns[0].ReadOnly = true;
-                    for (int i = 1; i <= 3; i++)
-                    {
-                        implementersDataGridView.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                        implementersDataGridView.Columns[i].ReadOnly = true;
-                    }
-                }
+                Program.ConfigureGrid(logic.Read(null), implementersDataGridView);
             }
             catch (Exception ex)
             {
