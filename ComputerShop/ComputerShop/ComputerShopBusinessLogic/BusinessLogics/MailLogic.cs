@@ -135,7 +135,7 @@ namespace ComputerShopBusinessLogic.BusinessLogics
                                         Body = message.TextBody
                                     });
                                 }
-                                catch (Exception) {  }
+                                catch (Exception) { }
                                 /*Оказываемся тут, если уже сохраняли это письмо. 
                                  *У меня почта настроена так, что бы письма не удалялись при загрузке*/
                             }

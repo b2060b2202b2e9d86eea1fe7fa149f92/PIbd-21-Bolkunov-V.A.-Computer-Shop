@@ -34,18 +34,19 @@ namespace ComputerShopView
             this.ComponentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ComputersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ClientsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ImplementerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.отчетToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ComponentsListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ComputerComponentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OrdersListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.DoWorkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ordersDataGridView = new System.Windows.Forms.DataGridView();
             this.CreateOrderButton = new System.Windows.Forms.Button();
             this.TakeOrderInWorkButton = new System.Windows.Forms.Button();
             this.FinishOrderButton = new System.Windows.Forms.Button();
             this.PayOrderButton = new System.Windows.Forms.Button();
             this.RefreshButton = new System.Windows.Forms.Button();
-            this.DoWorkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ImplementerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.CreateBackupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ordersDataGridView)).BeginInit();
             this.SuspendLayout();
@@ -55,7 +56,8 @@ namespace ComputerShopView
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.справочникиToolStripMenuItem,
             this.отчетToolStripMenuItem,
-            this.DoWorkToolStripMenuItem});
+            this.DoWorkToolStripMenuItem,
+            this.CreateBackupToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(822, 24);
@@ -76,23 +78,30 @@ namespace ComputerShopView
             // ComponentsToolStripMenuItem
             // 
             this.ComponentsToolStripMenuItem.Name = "ComponentsToolStripMenuItem";
-            this.ComponentsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.ComponentsToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.ComponentsToolStripMenuItem.Text = "Компоненты";
             this.ComponentsToolStripMenuItem.Click += new System.EventHandler(this.ComponentsToolStripMenuItem_Click);
             // 
             // ComputersToolStripMenuItem
             // 
             this.ComputersToolStripMenuItem.Name = "ComputersToolStripMenuItem";
-            this.ComputersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.ComputersToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.ComputersToolStripMenuItem.Text = "Компьютеры";
             this.ComputersToolStripMenuItem.Click += new System.EventHandler(this.ComputersToolStripMenuItem_Click);
             // 
             // ClientsToolStripMenuItem
             // 
             this.ClientsToolStripMenuItem.Name = "ClientsToolStripMenuItem";
-            this.ClientsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.ClientsToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.ClientsToolStripMenuItem.Text = "Клиенты";
             this.ClientsToolStripMenuItem.Click += new System.EventHandler(this.ClientsToolStripMenuItem_Click);
+            // 
+            // ImplementerToolStripMenuItem
+            // 
+            this.ImplementerToolStripMenuItem.Name = "ImplementerToolStripMenuItem";
+            this.ImplementerToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.ImplementerToolStripMenuItem.Text = "Исполнители";
+            this.ImplementerToolStripMenuItem.Click += new System.EventHandler(this.ImplementerToolStripMenuItem_Click);
             // 
             // отчетToolStripMenuItem
             // 
@@ -124,6 +133,13 @@ namespace ComputerShopView
             this.OrdersListToolStripMenuItem.Size = new System.Drawing.Size(233, 22);
             this.OrdersListToolStripMenuItem.Text = "Список заказов";
             this.OrdersListToolStripMenuItem.Click += new System.EventHandler(this.OrdersListToolStripMenuItem_Click);
+            // 
+            // DoWorkToolStripMenuItem
+            // 
+            this.DoWorkToolStripMenuItem.Name = "DoWorkToolStripMenuItem";
+            this.DoWorkToolStripMenuItem.Size = new System.Drawing.Size(92, 20);
+            this.DoWorkToolStripMenuItem.Text = "Запуск работ";
+            this.DoWorkToolStripMenuItem.Click += new System.EventHandler(this.DoWorkToolStripMenuItem_Click);
             // 
             // ordersDataGridView
             // 
@@ -186,19 +202,12 @@ namespace ComputerShopView
             this.RefreshButton.UseVisualStyleBackColor = true;
             this.RefreshButton.Click += new System.EventHandler(this.RefreshButton_Click);
             // 
-            // DoWorkToolStripMenuItem
+            // CreateBackupToolStripMenuItem
             // 
-            this.DoWorkToolStripMenuItem.Name = "DoWorkToolStripMenuItem";
-            this.DoWorkToolStripMenuItem.Size = new System.Drawing.Size(92, 20);
-            this.DoWorkToolStripMenuItem.Text = "Запуск работ";
-            this.DoWorkToolStripMenuItem.Click += new System.EventHandler(this.DoWorkToolStripMenuItem_Click);
-            // 
-            // ImplementerToolStripMenuItem
-            // 
-            this.ImplementerToolStripMenuItem.Name = "ImplementerToolStripMenuItem";
-            this.ImplementerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.ImplementerToolStripMenuItem.Text = "Исполнители";
-            this.ImplementerToolStripMenuItem.Click += new System.EventHandler(this.ImplementerToolStripMenuItem_Click);
+            this.CreateBackupToolStripMenuItem.Name = "CreateBackupToolStripMenuItem";
+            this.CreateBackupToolStripMenuItem.Size = new System.Drawing.Size(165, 20);
+            this.CreateBackupToolStripMenuItem.Text = "Создать резервную копию";
+            this.CreateBackupToolStripMenuItem.Click += new System.EventHandler(this.CreateBackupToolStripMenuItem_Click);
             // 
             // FormMain
             // 
@@ -243,5 +252,6 @@ namespace ComputerShopView
         private System.Windows.Forms.ToolStripMenuItem ClientsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ImplementerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem DoWorkToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem CreateBackupToolStripMenuItem;
     }
 }

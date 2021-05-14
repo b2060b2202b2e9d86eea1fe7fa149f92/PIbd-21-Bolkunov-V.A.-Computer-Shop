@@ -10,6 +10,7 @@ using Unity.Lifetime;
 using ComputerShopBusinessLogic.BusinessLogics;
 using ComputerShopBusinessLogic.Interfaces;
 using ComputerShopBusinessLogic.HelperModels;
+using ComputerShopBusinessLogic.Attributes;
 using ComputerShopDatabaseImplement.Implementations;
 
 
@@ -33,8 +34,8 @@ namespace ComputerShopView
                 MailPassword = ConfigurationManager.AppSettings["MailPassword"]
             });
 
-            var timer = new System.Threading.Timer(new TimerCallback(MailCheck), new MailCheckInfo 
-            { 
+            var timer = new System.Threading.Timer(new TimerCallback(MailCheck), new MailCheckInfo
+            {
                 PopHost = ConfigurationManager.AppSettings["PopHost"],
                 PopPort = Convert.ToInt32(ConfigurationManager.AppSettings["PopPort"]),
                 Storage = container.Resolve<IMessageInfoStorage>(),
@@ -57,6 +58,8 @@ namespace ComputerShopView
             currentContainer.RegisterType<IImplementerStorage, ImplementersStorage>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IMessageInfoStorage, MessageInfoStorage>(new HierarchicalLifetimeManager());
 
+            currentContainer.RegisterType<BackupAbstractLogic, BackUpLogic>(new HierarchicalLifetimeManager());
+
             currentContainer.RegisterType<ComponentLogic>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<OrderLogic>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<ComputerLogic>(new HierarchicalLifetimeManager());
@@ -72,6 +75,56 @@ namespace ComputerShopView
         private static void MailCheck(object obj)
         {
             MailLogic.MailCheck((MailCheckInfo)obj);
+        }
+
+        public static void ConfigureGrid<T>(List<T> data, DataGridView dataGridView)
+        {
+            var type = typeof(T);
+            var config = new List<string>();
+            dataGridView.Columns.Clear();
+
+            foreach (var property in type.GetProperties())
+            {
+                var attributes = property.GetCustomAttributes(typeof(ColumnAttribute), true);
+                if(attributes != null && attributes.Length > 0)
+                {
+                    foreach (var attribute in attributes)
+                    {
+                        if (attribute is ColumnAttribute columnAttribute)
+                        {
+                            config.Add(property.Name);
+                            var column = new DataGridViewTextBoxColumn
+                            {
+                                Name = property.Name,
+                                ReadOnly = true,
+                                HeaderText = columnAttribute.Title,
+                                Visible = columnAttribute.Visible,
+                                Width = columnAttribute.Width
+                            };
+                            if(columnAttribute.GridViewAutoSize != GridViewAutoSize.None)
+                            {
+                                column.AutoSizeMode = (DataGridViewAutoSizeColumnMode)Enum.Parse
+                                    (
+                                        typeof(DataGridViewAutoSizeColumnMode),
+                                        columnAttribute.GridViewAutoSize.ToString()
+                                    );
+                            }
+                            dataGridView.Columns.Add(column);
+                        }
+                    }
+                }
+            }
+
+            foreach (var element in data)
+            {
+                var objects = new List<object>();
+                foreach (var conf in config)
+                {
+                    var value = element.GetType().GetProperty(conf).GetValue(element);
+                    objects.Add(value);
+                }
+                dataGridView.Rows.Add(objects.ToArray());
+            }
         }
     }
 }
