@@ -33,10 +33,12 @@ namespace ComputerShopView
             currentContainer.RegisterType<IComponentStorage, ComponentStorage>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IOrderStorage, OrderStorage>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IComputerStorage, ComputerStorage>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IStorageStorage, StorageStorage>(new HierarchicalLifetimeManager());
 
             currentContainer.RegisterType<ComponentLogic>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<OrderLogic>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<ComputerLogic>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<StorageLogic>(new HierarchicalLifetimeManager());
 
             return currentContainer;
         }
