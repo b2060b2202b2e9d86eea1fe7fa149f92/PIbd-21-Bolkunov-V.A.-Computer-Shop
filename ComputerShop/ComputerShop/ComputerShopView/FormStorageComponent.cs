@@ -55,6 +55,7 @@ namespace ComputerShopView
                     ComponentCount = Int32.Parse(CountTextBox.Text)
                 });
                 MessageBox.Show("Пополнение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                LoadData();
             }
             catch (Exception ex)
             {
@@ -91,6 +92,16 @@ namespace ComputerShopView
 
         private void refreshButton_Click(object sender, EventArgs e)
         {
+            LoadData();
+        }
+
+        private void storageComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadData();
+        }
+
+        private void LoadData()
+        {
             if (storageComboBox.SelectedItem != null)
             {
                 List<KeyValuePair<string, int>> list = storageLogic
@@ -99,7 +110,7 @@ namespace ComputerShopView
                     .Select(item => new KeyValuePair<string, int>(item.Item1, item.Item2))
                     .ToList();
 
-                if (list != null && list.Count > 0)
+                if (list != null)
                 {
                     componentsDataGridView.DataSource = list;
                     componentsDataGridView.Columns[0].HeaderText = "Название";

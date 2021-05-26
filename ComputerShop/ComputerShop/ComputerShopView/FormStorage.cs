@@ -43,7 +43,7 @@ namespace ComputerShopView
                 logic.CreateOrUpdate(new StorageBindingModel
                 {
                     StorageName = NameTextBox.Text,
-                    OwnerName = NameTextBox.Text,
+                    OwnerName = OwnerTextBox.Text,
                     CreationTime = DateTime.Now,
                     ComponentCounts = new Dictionary<int, (string, int)>()
                 });
