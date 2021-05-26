@@ -17,16 +17,19 @@ namespace ComputerShopFileImplement
         private readonly string ComponentsFileName = "Components.xml";
         private readonly string OrdersFileName = "Orders.xml";
         private readonly string ComputersFileName = "Computers.xml";
+        private readonly string StoragesFileName = "Storages.xml";
 
         public List<Component> Components { get; set; }
         public List<Order> Orders { get; set; }
         public List<Computer> Computers { get; set; }
+        public List<Storage> Storages { get; set; }
 
         private FileDataListSingleton()
         {
             Orders = LoadOrders();
             Components = LoadComponents();
             Computers = LoadComputers();
+            Storages = LoadStorages();
         }
 
         public static FileDataListSingleton GetInstance()
@@ -43,6 +46,7 @@ namespace ComputerShopFileImplement
             SaveComponents();
             SaveOrders();
             SaveComputers();
+            SaveStorages();
         }
 
         private List<Component> LoadComponents()
@@ -131,6 +135,39 @@ namespace ComputerShopFileImplement
             return list;
         }
 
+        private List<Storage> LoadStorages()
+        {
+            var list = new List<Storage>();
+
+            if(File.Exists(StoragesFileName))
+            {
+                var xDocumnet = XDocument.Load(StoragesFileName);
+                var xElements = xDocumnet.Root.Elements("Storage").ToList();
+
+                foreach (var element in xElements)
+                {
+                    var components = new Dictionary<int, int>();
+                    var componentsElements = element.Element("ComponentCounts").Elements("ComponentCount").ToList();
+
+                    foreach (var component in componentsElements)
+                    {
+                        components.Add(Convert.ToInt32(component.Element("Key").Value), Convert.ToInt32(component.Element("Value").Value));
+                    }
+
+                    list.Add(new Storage()
+                    {
+                        Id = Convert.ToInt32(element.Attribute("Id").Value),
+                        StorageName = element.Element("StorageName").Value,
+                        OwnerName = element.Element("OwnerName").Value,
+                        CreationTime = DateTime.Parse(element.Element("CreationTime").Value),
+                        ComponentCounts = components
+                    });
+                }
+            }
+
+            return list;
+        }
+
         private void SaveComponents()
         {
             if(Components != null)
@@ -210,6 +247,41 @@ namespace ComputerShopFileImplement
                 var xDocument = new XDocument(xElement);
                 xDocument.Save(ComputersFileName);
             }
+        }
+
+        private void SaveStorages()
+        {
+            if(Storages != null)
+            {
+                var xElement = new XElement("Storages");
+
+                foreach (var storage in Storages)
+                {
+                    var componentElement = new XElement("ComponentCounts");
+                    foreach (var component in storage.ComponentCounts)
+                    {
+                        componentElement.Add(new XElement
+                            (
+                                "ComponentCount",
+                                new XElement("Key", component.Key),
+                                new XElement("Value", component.Value)
+                            ));
+                    }
+
+                    xElement.Add(new XElement
+                        (
+                            "Storage",
+                            new XAttribute("Id", storage.Id),
+                            new XElement("StorageName", storage.StorageName),
+                            new XElement("OwnerName", storage.OwnerName),
+                            new XElement("CreationTime", storage.CreationTime),
+                            componentElement
+                        ));
+                }
+
+                var xDocument = new XDocument(xElement);
+                xDocument.Save(StoragesFileName);
+            }    
         }
     }
 }
