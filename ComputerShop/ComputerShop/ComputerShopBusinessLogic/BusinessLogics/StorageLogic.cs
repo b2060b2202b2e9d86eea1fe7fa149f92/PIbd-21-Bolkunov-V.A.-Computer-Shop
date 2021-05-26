@@ -67,7 +67,7 @@ namespace ComputerShopBusinessLogic.BusinessLogics
 
         public void AddCountOrAddComponent(StorageAddComponentBindingModel model)
         {
-            if(model != null && model.ComponentCount >= 0)
+            if(model != null && model.ComponentCount >= 0 && model.StorageID.HasValue)
             {
                 StorageViewModel vm = storagesStorage
                     .GetElement(new StorageBindingModel() { Id = model.StorageID });

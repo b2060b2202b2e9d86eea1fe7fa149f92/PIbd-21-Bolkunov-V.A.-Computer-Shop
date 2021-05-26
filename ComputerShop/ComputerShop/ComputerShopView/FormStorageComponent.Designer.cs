@@ -102,6 +102,7 @@ namespace ComputerShopView
             this.storageComboBox.Name = "storageComboBox";
             this.storageComboBox.Size = new System.Drawing.Size(479, 21);
             this.storageComboBox.TabIndex = 19;
+            this.storageComboBox.SelectedIndexChanged += new System.EventHandler(this.storageComboBox_SelectedIndexChanged);
             // 
             // label3
             // 

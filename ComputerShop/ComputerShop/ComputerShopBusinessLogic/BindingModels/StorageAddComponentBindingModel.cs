@@ -6,7 +6,7 @@ namespace ComputerShopBusinessLogic.BindingModels
 {
     public class StorageAddComponentBindingModel
     {
-        public int StorageID { get; set; }
+        public int? StorageID { get; set; }
         public int ComponentID { get; set; }
         public int ComponentCount { get; set; }
     }
