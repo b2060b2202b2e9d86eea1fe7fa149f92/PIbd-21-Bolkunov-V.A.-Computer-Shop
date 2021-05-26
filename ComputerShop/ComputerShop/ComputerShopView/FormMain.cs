@@ -140,5 +140,19 @@ namespace ComputerShopView
         {
             LoadData();
         }
+
+        private void storagesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormStorages>();
+            form.ShowDialog();
+            LoadData();
+        }
+
+        private void insertIntoStorageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormStorageComponent>();
+            form.ShowDialog();
+            LoadData();
+        }
     }
 }
