@@ -33,6 +33,8 @@ namespace ComputerShopView
             this.справочникиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ComponentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ComputersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.storagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.insertIntoStorageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ordersDataGridView = new System.Windows.Forms.DataGridView();
             this.CreateOrderButton = new System.Windows.Forms.Button();
             this.TakeOrderInWorkButton = new System.Windows.Forms.Button();
@@ -46,7 +48,8 @@ namespace ComputerShopView
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.справочникиToolStripMenuItem});
+            this.справочникиToolStripMenuItem,
+            this.insertIntoStorageToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(822, 24);
@@ -57,7 +60,8 @@ namespace ComputerShopView
             // 
             this.справочникиToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ComponentsToolStripMenuItem,
-            this.ComputersToolStripMenuItem});
+            this.ComputersToolStripMenuItem,
+            this.storagesToolStripMenuItem});
             this.справочникиToolStripMenuItem.Name = "справочникиToolStripMenuItem";
             this.справочникиToolStripMenuItem.Size = new System.Drawing.Size(94, 20);
             this.справочникиToolStripMenuItem.Text = "Справочники";
@@ -65,16 +69,30 @@ namespace ComputerShopView
             // ComponentsToolStripMenuItem
             // 
             this.ComponentsToolStripMenuItem.Name = "ComponentsToolStripMenuItem";
-            this.ComponentsToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.ComponentsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.ComponentsToolStripMenuItem.Text = "Компоненты";
             this.ComponentsToolStripMenuItem.Click += new System.EventHandler(this.ComponentsToolStripMenuItem_Click);
             // 
             // ComputersToolStripMenuItem
             // 
             this.ComputersToolStripMenuItem.Name = "ComputersToolStripMenuItem";
-            this.ComputersToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.ComputersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.ComputersToolStripMenuItem.Text = "Компьютеры";
             this.ComputersToolStripMenuItem.Click += new System.EventHandler(this.ComputersToolStripMenuItem_Click);
+            // 
+            // storagesToolStripMenuItem
+            // 
+            this.storagesToolStripMenuItem.Name = "storagesToolStripMenuItem";
+            this.storagesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.storagesToolStripMenuItem.Text = "Склады";
+            this.storagesToolStripMenuItem.Click += new System.EventHandler(this.storagesToolStripMenuItem_Click);
+            // 
+            // insertIntoStorageToolStripMenuItem
+            // 
+            this.insertIntoStorageToolStripMenuItem.Name = "insertIntoStorageToolStripMenuItem";
+            this.insertIntoStorageToolStripMenuItem.Size = new System.Drawing.Size(115, 20);
+            this.insertIntoStorageToolStripMenuItem.Text = "Пополнить склад";
+            this.insertIntoStorageToolStripMenuItem.Click += new System.EventHandler(this.insertIntoStorageToolStripMenuItem_Click);
             // 
             // ordersDataGridView
             // 
@@ -171,5 +189,7 @@ namespace ComputerShopView
         private System.Windows.Forms.Button FinishOrderButton;
         private System.Windows.Forms.Button PayOrderButton;
         private System.Windows.Forms.Button RefreshButton;
+        private System.Windows.Forms.ToolStripMenuItem storagesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem insertIntoStorageToolStripMenuItem;
     }
 }
