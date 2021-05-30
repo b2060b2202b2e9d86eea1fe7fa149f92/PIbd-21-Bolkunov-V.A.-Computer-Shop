@@ -65,13 +65,6 @@ namespace ComputerShopBusinessLogic.BusinessLogics
             {
                 throw new Exception("Компьютер, принадлежащий этому заказу, больше не существует");
             }
-            if(!computer.ComputerComponents.All
-                (kvp => storageStorage.HasComponents(
-                    new StorageAddComponentBindingModel 
-                    { ComponentID = kvp.Key, ComponentCount = kvp.Value.Item2 * order.Count})))
-            {
-                throw new Exception("На складах недостаточно компонентов");
-            }
             foreach (var kvp in computer.ComputerComponents)
             {
                 storageStorage.RemoveComponents(new StorageAddComponentBindingModel

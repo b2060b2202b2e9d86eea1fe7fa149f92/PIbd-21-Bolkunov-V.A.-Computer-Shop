@@ -37,7 +37,8 @@ namespace ComputerShopListImplement.Implementations
             var res = new List<OrderViewModel>();
             foreach (var ord in dataSource.Orders)
             {
-                if (ord.ComputerId == model.ComputerId)//???
+                if (ord.ComputerId == model.ComputerId ||
+                        ord.DateCreate == model.DateCreate)//???
                 {
                     res.Add(CreateModel(ord));
                 }

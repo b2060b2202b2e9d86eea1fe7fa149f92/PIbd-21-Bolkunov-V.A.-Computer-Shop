@@ -30,7 +30,7 @@ namespace ComputerShopListImplement.Implementations
 
         public List<ComputerViewModel> GetFilteredList(ComputerBindingModel model)
         {
-            if (model == null)
+            if(model == null)
             {
                 return null;
             }
@@ -38,7 +38,7 @@ namespace ComputerShopListImplement.Implementations
             var result = new List<ComputerViewModel>();
             foreach (var comp in dataSource.Computers)
             {
-                if (comp.ComputerName.Contains(model.ComputerName))
+                if(comp.ComputerName.Contains(model.ComputerName))
                 {
                     result.Add(CreateModel(comp));
                 }

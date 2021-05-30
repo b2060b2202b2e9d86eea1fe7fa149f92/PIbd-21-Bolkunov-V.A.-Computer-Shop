@@ -31,7 +31,8 @@ namespace ComputerShopFileImplement.Implementations
             }
 
             return dataSource.Orders
-                .Where(ord => ord.ComputerId == model.ComputerId)//???
+                .Where(ord => ord.ComputerId == model.ComputerId ||
+                    ord.DateCreate == model.DateCreate)//???
                 .Select(CreateModel)
                 .ToList();
         }
