@@ -7,7 +7,7 @@ using Unity;
 using Unity.Lifetime;
 using ComputerShopBusinessLogic.BusinessLogics;
 using ComputerShopBusinessLogic.Interfaces;
-using ComputerShopListImplement.Implementations;
+using ComputerShopFileImplement.Implementations;
 
 namespace ComputerShopView
 {

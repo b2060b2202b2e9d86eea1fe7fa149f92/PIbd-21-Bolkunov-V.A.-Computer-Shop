@@ -155,5 +155,15 @@ namespace ComputerShopListImplement.Implementations
                 ComponentCounts = dict
             };
         }
+
+        public bool HasComponents(StorageAddComponentBindingModel model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveComponents(StorageAddComponentBindingModel model)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

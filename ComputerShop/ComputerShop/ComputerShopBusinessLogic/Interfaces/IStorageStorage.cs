@@ -14,5 +14,7 @@ namespace ComputerShopBusinessLogic.Interfaces
         void Insert(StorageBindingModel model);
         void Update(StorageBindingModel model);
         void Delete(StorageBindingModel model);
+        bool HasComponents(StorageAddComponentBindingModel model);
+        void RemoveComponents(StorageAddComponentBindingModel model);
     }
 }

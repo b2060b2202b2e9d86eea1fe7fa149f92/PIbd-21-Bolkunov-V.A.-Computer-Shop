@@ -5,16 +5,22 @@ using ComputerShopBusinessLogic.Interfaces;
 using ComputerShopBusinessLogic.BindingModels;
 using ComputerShopBusinessLogic.ViewModels;
 using ComputerShopBusinessLogic.Enums;
+using System.Linq;
 
 namespace ComputerShopBusinessLogic.BusinessLogics
 {
     public class OrderLogic
     {
         private readonly IOrderStorage orderStorage;
+        private readonly IStorageStorage storageStorage;
+        private readonly IComputerStorage computerStorage;
 
-        public OrderLogic(IOrderStorage orderStorage)
+        public OrderLogic(IOrderStorage orderStorage, 
+            IStorageStorage storageStorage, IComputerStorage computerStorage)
         {
             this.orderStorage = orderStorage;
+            this.storageStorage = storageStorage;
+            this.computerStorage = computerStorage;
         }
 
         public List<OrderViewModel> Read(OrderBindingModel model)
@@ -53,6 +59,23 @@ namespace ComputerShopBusinessLogic.BusinessLogics
             if(order.Status != OrderStatus.Принят)
             {
                 throw new Exception("Заказ не в статусе \"Принят\"");
+            }
+            var computer = computerStorage.GetElement(new ComputerBindingModel { Id = order.ComputerId});
+            if(computer == null)
+            {
+                throw new Exception("Компьютер, принадлежащий этому заказу, больше не существует");
+            }
+            if(!computer.ComputerComponents.All
+                (kvp => storageStorage.HasComponents(
+                    new StorageAddComponentBindingModel 
+                    { ComponentID = kvp.Key, ComponentCount = kvp.Value.Item2 * order.Count})))
+            {
+                throw new Exception("На складах недостаточно компонентов");
+            }
+            foreach (var kvp in computer.ComputerComponents)
+            {
+                storageStorage.RemoveComponents(new StorageAddComponentBindingModel
+                    { ComponentID = kvp.Key, ComponentCount = kvp.Value.Item2 * order.Count });
             }
             orderStorage.Update(new OrderBindingModel
             {
